@@ -1,0 +1,25 @@
+ul{
+  border: black solid 1px;
+  width: 200px;
+  height: 100%;
+  
+}
+
+li:hover {
+  background-color:#007BFF;
+  
+}
+.headerName {
+  font-size: 30px;
+}
+.headerBttn{
+  float: right;
+}
+.banner {
+  border : black solid 1px;
+  background-color: #e1f0f7;
+}
+.mainWindow{
+  background-color: #e1f0f7;
+}
+

@@ -12,6 +12,7 @@ code {
     monospace;
 }
 
-header > p {
-  background-color: blue;
+h1 {
+  text-align: center;
+  margin-bottom: 50px;
 }
