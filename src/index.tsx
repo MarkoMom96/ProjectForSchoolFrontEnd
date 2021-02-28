@@ -9,9 +9,12 @@ import "popper.js/dist/popper.js";
 import "bootstrap/dist/js/bootstrap.min.js"
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import { Banner } from "./components/AppBanner/banner";
-import MainMenu from './components/MainMenu/MainMenu';
+import MainMenu, { MainMenuItem } from './components/MainMenu/MainMenu';
 
-
+const itemsForMenu = [
+    new MainMenuItem("Activni testovi", "/activni_testovi/"),
+    new MainMenuItem("Odradjeni testovi", "/odradjeni_testovi/")
+];
 
 
 
@@ -19,7 +22,7 @@ import MainMenu from './components/MainMenu/MainMenu';
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
-    <MainMenu></MainMenu>
+    <MainMenu items = { itemsForMenu }></MainMenu>
     <App></App>
   </React.StrictMode>,
   document.getElementById('root')

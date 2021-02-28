@@ -2,8 +2,22 @@ import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './MainMenu.css';
 
+export class MainMenuItem{
+    linkName: string = "";
+    linkHref: string = "#";
 
-export class MainMenu extends React.Component {
+    constructor(linkName: string, linkHref: string) {
+      this.linkName = linkName;
+      this.linkHref = linkHref;
+    }
+
+}
+
+interface MainMenuProperties {
+    items: MainMenuItem[];
+}
+
+export class MainMenu extends React.Component<MainMenuProperties> {
   render() {
   return (
     <Container  className="borderL borderR noPadding">
@@ -11,20 +25,24 @@ export class MainMenu extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto" variant = "tabs">
-            <Nav.Link href="#home">Moji Testovi</Nav.Link>
-            <Nav.Link href="#link">Odradjeni testovi</Nav.Link>
-            <Nav.Link href="#link2">Registracija studenta</Nav.Link>
+            {
+              this.props.items.map(this.addNavLink)
+            }
           </Nav>
           <Navbar.Text>Ime i Prezime, Indeks:123123123</Navbar.Text>
           <Nav>
-          <Nav.Link className = "" href="#link3">Odjava</Nav.Link>
+          <Nav.Link href="#">Odjava</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     </Container>
   );
   }
-
+  private addNavLink(item: MainMenuItem) {
+    return(
+      <Nav.Link href = { item.linkHref }> {item.linkName} </Nav.Link>
+    )
+  }
   
 }
 export default MainMenu;
