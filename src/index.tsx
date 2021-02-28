@@ -9,6 +9,9 @@ import "popper.js/dist/popper.js";
 import "bootstrap/dist/js/bootstrap.min.js"
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import { Banner } from "./components/AppBanner/banner";
+import MainMenu from './components/MainMenu/MainMenu';
+
+
 
 
 
@@ -16,7 +19,8 @@ import { Banner } from "./components/AppBanner/banner";
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
-    <App />
+    <MainMenu></MainMenu>
+    <App></App>
   </React.StrictMode>,
   document.getElementById('root')
 );

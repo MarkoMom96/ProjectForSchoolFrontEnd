@@ -1,0 +1,10 @@
+.noPadding{
+  padding:0px;
+}
+
+.borderL {
+  border-left: black 2px solid;
+}
+.borderR {
+  border-right: black 2px solid;
+}
