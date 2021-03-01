@@ -10,20 +10,22 @@ import "bootstrap/dist/js/bootstrap.min.js"
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import { Banner } from "./components/AppBanner/banner";
 import MainMenu, { MainMenuItem } from './components/MainMenu/MainMenu';
-
-const itemsForMenu = [
-    new MainMenuItem("Activni testovi", "/activni_testovi/"),
-    new MainMenuItem("Odradjeni testovi", "/odradjeni_testovi/")
-];
+import { Login } from './components/Login/Login';
 
 
+
+const menuOptions = [
+    new MainMenuItem("Moji testovi", "/activni_testovi/"),
+    new MainMenuItem("Registracija studenta", "/registracija_studenta/")
+    
+  ];  
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
-    <MainMenu items = { itemsForMenu }></MainMenu>
-    <App></App>
+    
+    <Login></Login>
   </React.StrictMode>,
   document.getElementById('root')
 );
