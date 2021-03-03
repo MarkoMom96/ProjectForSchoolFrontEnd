@@ -13,13 +13,15 @@ import { Login } from './components/Login/Login';
 import MainContent, { TestItem } from './components/MainContent/MainContent';
 import StudentRegistration from './components/StudentRegistration/StudentRegistration';
 import NewTest from './components/NewTest/NewTest';
+import { HashRouter, Route } from "react-router-dom";
+import Switch from 'react-bootstrap/esm/Switch';
 
 
 export const user = "Marko Momcilovic";
 const menuOptions = [
     new MainMenuItem("Moji testovi", "/moji_testovi/"),
-    new MainMenuItem("Registracija studenta", "/registracija_studenta/"),
-    new MainMenuItem("Novi test", "/novi_test/")
+    new MainMenuItem("Registracija studenta", "/registracija_studenta"),
+    new MainMenuItem("Novi test", "/novi_test")
 
   ]; 
 
@@ -30,17 +32,19 @@ const menuOptions = [
     new TestItem("Test br4", "100", "90"),
     new TestItem("Test br5", "100", "90")
   ];
-  /*
-  <MainMenu items = { menuOptions }></MainMenu>
-    <MainContent items = { testList }></MainContent>
-  */
-
+ 
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
     <MainMenu items = { menuOptions }></MainMenu>
-    <NewTest></NewTest>
+    <HashRouter>
+      <Switch>
+        <Route exact path = "/moji_testovi" component = { MainContent}/>
+        <Route exact path = "/registracija_studenta" component = { StudentRegistration }/>
+        <Route exact path = "/novi_test" component = { NewTest }/>
+      </Switch>
+    </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

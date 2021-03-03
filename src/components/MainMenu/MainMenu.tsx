@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import { HashRouter, Link } from 'react-router-dom';
 import { user } from '../..';
 import './MainMenu.css';
 
@@ -28,9 +29,9 @@ export class MainMenu extends React.Component<MainMenuProperties> {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav variant = "tabs">
-            {
-              this.props.items.map(this.addNavLink)
-            }
+            <HashRouter>          
+              { this.props.items.map(this.addNavLink) }           
+            </HashRouter>
             <Nav.Link href="#">Odjava</Nav.Link>
           </Nav>        
         </Navbar.Collapse>
@@ -41,7 +42,10 @@ export class MainMenu extends React.Component<MainMenuProperties> {
   }
   private addNavLink(item: MainMenuItem) {
     return(
-      <Nav.Link href = { item.linkHref }> {item.linkName} </Nav.Link>
+      <Link to = { item.linkHref } className = "nav-link">
+        {item.linkName}
+      </Link>
+      
     )
   }
   

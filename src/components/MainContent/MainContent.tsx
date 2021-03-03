@@ -3,6 +3,7 @@ import './MainContent.css';
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 
 
+
 export class TestItem {
       name: string = "";
       numOfQuestions: string = "";
@@ -26,8 +27,8 @@ export class MainContent extends React.Component<TestProperties> {
   return (
 
     <Container className="borderLR px-0">
-      <ListGroup >
-        {this.props.items.map(this.addTest)}
+      <ListGroup>
+        { this.props.items.map(this.addTest) }
       </ListGroup>
     </Container>
 
