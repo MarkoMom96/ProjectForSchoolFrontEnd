@@ -11,6 +11,8 @@ import { Banner } from "./components/AppBanner/banner";
 import MainMenu, { MainMenuItem } from './components/MainMenu/MainMenu';
 import { Login } from './components/Login/Login';
 import MainContent, { TestItem } from './components/MainContent/MainContent';
+import StudentRegistration from './components/StudentRegistration/StudentRegistration';
+import NewTest from './components/NewTest/NewTest';
 
 
 export const user = "Marko Momcilovic";
@@ -28,13 +30,17 @@ const menuOptions = [
     new TestItem("Test br4", "100", "90"),
     new TestItem("Test br5", "100", "90")
   ];
+  /*
+  <MainMenu items = { menuOptions }></MainMenu>
+    <MainContent items = { testList }></MainContent>
+  */
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
     <MainMenu items = { menuOptions }></MainMenu>
-    <MainContent items = { testList }></MainContent>
+    <NewTest></NewTest>
   </React.StrictMode>,
   document.getElementById('root')
 );

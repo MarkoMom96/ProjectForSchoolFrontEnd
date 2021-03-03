@@ -8,7 +8,7 @@ export class Login extends React.Component {
     return (
       <Container>
         <p id = "formMassage">Ulogujte se da bi ste koristili aplikaciju</p>
-        <Form id = "logInForm">
+        <Form className = "px-lg-5">
           <Form.Group controlId="formBasicUserName">
             <Form.Label>Korisnicko ime (indeks)</Form.Label>
             <Form.Control type="username"/>
