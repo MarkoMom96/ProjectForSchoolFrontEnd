@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App/App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,21 +10,31 @@ import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import { Banner } from "./components/AppBanner/banner";
 import MainMenu, { MainMenuItem } from './components/MainMenu/MainMenu';
 import { Login } from './components/Login/Login';
+import MainContent, { TestItem } from './components/MainContent/MainContent';
 
 
-
+export const user = "Marko Momcilovic";
 const menuOptions = [
-    new MainMenuItem("Moji testovi", "/activni_testovi/"),
-    new MainMenuItem("Registracija studenta", "/registracija_studenta/")
-    
-  ];  
+    new MainMenuItem("Moji testovi", "/moji_testovi/"),
+    new MainMenuItem("Registracija studenta", "/registracija_studenta/"),
+    new MainMenuItem("Novi test", "/novi_test/")
+
+  ]; 
+
+  const testList = [
+    new TestItem("Test br1", "15", "30"),
+    new TestItem("Test br2", "60", "90"),
+    new TestItem("Test br3", "15", "10"),
+    new TestItem("Test br4", "100", "90"),
+    new TestItem("Test br5", "100", "90")
+  ];
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
-    
-    <Login></Login>
+    <MainMenu items = { menuOptions }></MainMenu>
+    <MainContent items = { testList }></MainContent>
   </React.StrictMode>,
   document.getElementById('root')
 );

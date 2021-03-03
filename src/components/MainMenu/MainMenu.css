@@ -1,10 +1,7 @@
-.noPadding{
-  padding:0px;
-}
 
 .borderL {
-  border-left: black 2px solid;
+  border-left: black 1px solid;
 }
 .borderR {
-  border-right: black 2px solid;
+  border-right: black 1px solid;
 }
