@@ -20,8 +20,40 @@ export class MainMenuItem{
 interface MainMenuProperties {
     items: MainMenuItem[];
 }
+interface MainMenuState {
+  items: MainMenuItem[];
+}
 
 export class MainMenu extends React.Component<MainMenuProperties> {
+  
+  state:MainMenuState;
+
+  constructor(props: Readonly<MainMenuProperties>){
+    super(props);
+
+    this.state = {
+        items: props.items
+    }
+
+    /*setInterval(()=>{
+        const NewItems = [...this.state.items];       
+        NewItems.push(new MainMenuItem("NewLink", "#"));
+        this.setItems(NewItems);       
+    },2000);
+    */
+
+
+  }
+
+  setItems(items:MainMenuItem[]){
+    this.setState( {
+      items:items
+    }); 
+
+  }
+  
+
+
   render() {
   return (
     <Container  className="borderL borderR p-0">
@@ -30,7 +62,7 @@ export class MainMenu extends React.Component<MainMenuProperties> {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav variant = "tabs">
             <HashRouter>          
-              { this.props.items.map(this.addNavLink) }           
+              { this.state.items.map(this.addNavLink) }           
             </HashRouter>
             <Nav.Link href="#">Odjava</Nav.Link>
           </Nav>        

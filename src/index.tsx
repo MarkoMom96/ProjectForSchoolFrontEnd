@@ -32,12 +32,14 @@ const menuOptions = [
     new TestItem("Test br4", "100", "90"),
     new TestItem("Test br5", "100", "90")
   ];
+
  
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
     <MainMenu items = { menuOptions }></MainMenu>
+    
     <HashRouter>
       <Switch>
         <Route exact path = "/moji_testovi" component = { MainContent}/>

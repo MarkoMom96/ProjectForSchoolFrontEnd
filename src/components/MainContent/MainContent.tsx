@@ -4,6 +4,7 @@ import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 
 
 
+
 export class TestItem {
       name: string = "";
       numOfQuestions: string = "";
@@ -21,14 +22,37 @@ export class TestItem {
 interface TestProperties {
     items:TestItem[];
 }
+interface ContentState {
+  items:TestItem[];
+}
 
 export class MainContent extends React.Component<TestProperties> {
+  
+  state :ContentState;
+  
+  constructor(props: Readonly<TestProperties>){
+    super(props)
+
+    this.state = {
+      items : props.items
+    }
+
+    
+  }
+  
+  SetItems(items:TestItem[]){
+    this.setState({
+      items: items
+    })
+
+  }
+
   render() {
   return (
 
     <Container className="borderLR px-0">
       <ListGroup>
-        { this.props.items.map(this.addTest) }
+        { this.state.items.map(this.addTest) }
       </ListGroup>
     </Container>
 
