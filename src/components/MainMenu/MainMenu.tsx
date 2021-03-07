@@ -34,15 +34,6 @@ export class MainMenu extends React.Component<MainMenuProperties> {
     this.state = {
         items: props.items
     }
-
-    /*setInterval(()=>{
-        const NewItems = [...this.state.items];       
-        NewItems.push(new MainMenuItem("NewLink", "#"));
-        this.setItems(NewItems);       
-    },2000);
-    */
-
-
   }
 
   setItems(items:MainMenuItem[]){
@@ -64,7 +55,7 @@ export class MainMenu extends React.Component<MainMenuProperties> {
             <HashRouter>          
               { this.state.items.map(this.addNavLink) }           
             </HashRouter>
-            <Nav.Link href="#">Odjava</Nav.Link>
+            <Nav.Link href="/">Odjava</Nav.Link>
           </Nav>        
         </Navbar.Collapse>
         <Navbar.Text className = "ml-auto pr-2" >Korisnik: { user }</Navbar.Text>

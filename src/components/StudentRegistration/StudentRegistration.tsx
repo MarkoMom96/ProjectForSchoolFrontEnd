@@ -6,7 +6,7 @@ export class StudentRegistration extends React.Component {
   render() {
     return (
       <Container className = "pt-5">
-        <p className = "text-center lead">Prijava studenta</p>
+        <p className = "text-center lead">Registracija studenta</p>
         <Form className = "px-lg-5">
           <Form.Group controlId="StudentIndeks">
             <Form.Label>Indeks</Form.Label>
