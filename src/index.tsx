@@ -19,26 +19,26 @@ import Switch from 'react-bootstrap/esm/Switch';
 
 export const user = "Marko Momcilovic";
 const menuOptions = [
-    new MainMenuItem("Moji testovi","/profesor/1/moji_testovi"),
-    new MainMenuItem("Registracija studenta", "/profesor/1/registracija_studenta"),
-    new MainMenuItem("Dodaj test", "/profesor/1/novi_test")
+    new MainMenuItem("Moji testovi","/api/profesor/1/moji_testovi"),
+    new MainMenuItem("Registracija studenta", "api/profesor/1/registracija_studenta"),
+    new MainMenuItem("Dodaj test", "api/profesor/1/novi_test")
 
   ]; 
 
   
 
- 
+ let showMenu = true;
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
-    <MainMenu items = { menuOptions }></MainMenu>   
+    { showMenu ? <MainMenu items = { menuOptions }></MainMenu> : null}   
     <HashRouter>
       <Switch className = "p-0">
         <Route exact path = "/" component = {Login}/>
-        <Route exact path = "/profesor/:pId/moji_testovi" component = { TestList }/>
-        <Route exact path = "/profesor/:pId/registracija_studenta" component = { StudentRegistration }/>
-        <Route exact path = "/profesor/:pId/novi_test" component = { NewTest }/>
+        <Route exact path = "api/profesor/:pId/moji_testovi" component = { TestList }/>{showMenu = true}
+        <Route exact path = "api/profesor/:pId/registracija_studenta" component = { StudentRegistration }/>
+        <Route exact path = "profesor/:pId/novi_test" component = { NewTest }/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

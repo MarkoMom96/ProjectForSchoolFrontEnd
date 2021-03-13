@@ -2,15 +2,22 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getTokenSourceMapRange } from "typescript";
 import { ApiConfig } from "../config/api.config";
 
-interface ApiResponse {
+export interface ApiResponse {
 	status: "ok" | "error" | "login";
 	data: any;
+}
+export function saveToken(token: string) {
+	localStorage.setItem("api_token", token);
+}
+export function saveRefreshToken(token: string) {
+	localStorage.setItem("api_refresh_token", token);
 }
 
 export default function api(
 	path: string,
 	method: "get" | "post" | "patch",
-	body: any | undefined
+	body: any | undefined,
+	role: "student" | "profesor" = "student"
 ) {
 	return new Promise<ApiResponse>(resolve => {
 		const requestData = {
@@ -26,7 +33,7 @@ export default function api(
 		axios(requestData)
 			.then(res => responseHandler(res, resolve))
 			.catch(async err => {
-				if (err.response.status === 401) {
+				if (err.status === 401) {
 					const newToken = await refreshToken();
 
 					if (!newToken) {
@@ -46,23 +53,20 @@ export default function api(
 					status: "error",
 					data: err,
 				};
+				return resolve(response);
 			});
 	});
 
 	function getToken(): string {
 		const token = localStorage.getItem("api_token");
-		return "Berer" + token;
+		return "Berer " + token;
 	}
-	function saveToken(token: string) {
-		localStorage.setItem("api_token", token);
-	}
+
 	function getRefreshToken(): string {
 		const token = localStorage.getItem("api_refresh_token");
 		return token + "";
 	}
-	function saveRefreshToken(token: string) {
-		localStorage.setItem("api_refresh_token", token);
-	}
+
 	async function responseHandler(
 		res: AxiosResponse<any>,
 		resolve: (value: ApiResponse) => void
@@ -76,26 +80,18 @@ export default function api(
 			return resolve(response);
 		}
 
-		let response: ApiResponse;
-		if (res.data.statusCode < 0) {
-			response = {
-				status: "login",
-				data: null,
-			};
-		} else {
-			response = {
-				status: "ok",
-				data: res.data,
-			};
-		}
+		const response: ApiResponse = {
+			status: "ok",
+			data: res.data,
+		};
 
 		resolve(response);
 
-		resolve(res.data);
+		//
 	}
 
 	async function refreshToken(): Promise<string | null> {
-		const path: string = "auth/student/refresh";
+		const path: string = `auth/${role}/refresh`;
 		const data = {
 			token: getRefreshToken(),
 		};

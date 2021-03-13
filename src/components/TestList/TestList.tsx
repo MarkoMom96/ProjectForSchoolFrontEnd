@@ -36,6 +36,7 @@ export class TestList extends React.Component<PageProperties> {
         {console.log("render")}
       </Container>
 
+      
     );
 
   }
@@ -43,7 +44,6 @@ export class TestList extends React.Component<PageProperties> {
   private addTest(test: TestType) {
     return (
       <ListGroup key={test.testId}>
-
         <ListGroup.Item className="p-1 pl-2">
           <Row noGutters>
             <p className="testName">{test.name}</p>
