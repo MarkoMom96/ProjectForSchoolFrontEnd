@@ -45,14 +45,15 @@ export class Login extends React.Component {
       data,
       this.state.role
       )
+      
     .then((res: ApiResponse) => {
-      console.log(res);
+     
       if(res.status === "error") {
         this.errorMessageChange("Could you try that again please")
         return;
       }
-        console.log(this.state)
-        if(res.data.statusCode !== null){
+        
+        if(res.data.statusCode !== undefined){
           switch (res.data.statusCode) {
             case -3001: this.errorMessageChange('This user does not exist!'); break;
             case -3002: this.errorMessageChange('Bad password!'); break;
@@ -60,14 +61,16 @@ export class Login extends React.Component {
           
           return;
         }
+        console.log("res::",res);
         saveToken(res.data.token);
         saveRefreshToken(res.data.refreshToken);
         
         const userId = res.data.id;
-       
+        this.errorMessageChange("");
         this.setLoginState(true);
         this.setUserId(res.data.id);
-      
+        console.log("state: " ,this.state);
+        
 
     })
   }

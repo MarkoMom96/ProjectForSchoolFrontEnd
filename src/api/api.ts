@@ -26,7 +26,7 @@ export default function api(
 			baseURL: ApiConfig.API_URL,
 			data: JSON.stringify(body),
 			headers: {
-				"Content-Type": "aplication/json",
+				"Content-Type": "application/json",
 				Authorization: getToken(),
 			},
 		};
