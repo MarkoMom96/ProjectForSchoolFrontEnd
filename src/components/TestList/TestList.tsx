@@ -3,17 +3,28 @@ import './TestList.css';
 import { Button, ButtonGroup, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import TestType from '../../types/TestType';
 import QuestionType from '../../types/QuestionType';
+import { Redirect } from 'react-router-dom';
+import api, { ApiResponse } from '../../api/api';
 
 
 interface PageProperties {
   match: {
     params: {
-      pId: number;
+      id: number;
+      role: string;
     }
   }
 }
 interface TestPageState {
+  isLoggedin: boolean
+  message: string
   tests?: TestType[]
+}
+interface ApiResponseTestDto {
+  testId: number
+  testName: string
+  duration: number
+  isActive: boolean
 }
 
 
@@ -24,37 +35,83 @@ export class TestList extends React.Component<PageProperties> {
   constructor(props: Readonly<PageProperties>) {
     super(props)
     this.state = {
-
+      isLoggedin:true,
+      message: ""
     }
 
   }
 
-  render() {
-    return (
-      <Container className="borderLR px-0">
-        {this.state.tests?.map(this.addTest)}
-        {console.log("render")}
-      </Container>
+ private putDataInState(data: ApiResponseTestDto[]){
+   
+  const testsForState: TestType[] = data.map(item =>{
+    return {
+      testId: item.testId,
+      testName: item.testName,
+      duration: item.duration,
+      isActive: item.isActive
+    }
+  });
+      const newState = Object.assign(this.state,{
+        tests: testsForState
+      })
+      this.setState(newState);
+ }
 
-      
-    );
+  getProfessorTests() {
+    api(`api/test/profesor/${this.props.match.params.id}`,"get", {}, "profesor")
+    .then((res:ApiResponse)=>{
+      console.log(res)
+      if(res.status === 'ok'){
+        if(!res.data.status) {
+          this.setMessage("")
+          this.putDataInState(res.data);
+          return;
+          }
+        this.setMessage("Doslo je do greske")
+        }
+    })
 
   }
+  setMessage(message: string) {
+    const newState = Object.assign(this.state,{
+      message: message
+    })
+    this.setState(newState);
+  }
 
-  private addTest(test: TestType) {
+  render() {
+    console.log(this.state)
+    if(this.state.message !== "") {
+      return (
+        <Container>
+          <p>{this.state.message}</p>    
+        </Container>    
+      )
+        
+    }
+    return (
+      <Container className="borderLR px-0">
+        {this.state.tests?.map(this.showTest)}
+      </Container>
+      
+    );
+  }
+  private showTest(test: TestType) {
     return (
       <ListGroup key={test.testId}>
         <ListGroup.Item className="p-1 pl-2">
           <Row noGutters>
-            <p className="testName">{test.name}</p>
+            <p className="testName">{test.testName}</p>
           </Row>
           <Row noGutters>
             <Col xs="auto">
-              <p className="testInfo">Broj pitanja: {test.numOfQuestions}</p>
+              <p className="testInfo">Broj pitanja: {test.questions?.length}</p>
               <p className="testInfo">Vreme trajanja: {test.duration} </p>
             </Col>
             <Col>
               <ButtonGroup className="float-right">
+                {test.isActive ? <Button href="#" className=" p-1 mr-1 mt-2">Deaktiviraj</Button>
+                 :<Button href="#" className=" p-1 mr-1 mt-2">Aktiviraj</Button> }
                 <Button href="#" className=" p-1 mr-1 mt-2">Promeni</Button>
                 <Button href="#" className=" p-1 mt-2">Pitanja</Button>
               </ButtonGroup>
@@ -66,47 +123,25 @@ export class TestList extends React.Component<PageProperties> {
   }
 
   componentDidMount() {
-    this.getPageData(); 
-    console.log("mounting",this.props.match.params.pId)
-    console.log(this.props.match.params.pId)
-
+    this.getProfessorTests(); 
   }
-  UNSAFE_componentWillReceiveProps(nextProp: PageProperties) {
-    if (nextProp.match.params.pId !== this.props.match.params.pId) {
-      console.log("willUpdate")
-      this.getPageData();
-    } else {
-      
-      return
-    }
+  //componentDidUpdate(){
+
+  //}
+    
+    componentDidUpdate(prevProps: PageProperties, prevState: TestPageState ) {
+      if(this.props !== prevProps){
+        console.warn("Change Props")
+        this.getProfessorTests();
+     
+     /* if(this.state !== prevState){
+      console.warn("Change State")
+      this.getProfessorTests();
+     } */
   }
-
-  /* componentDidUpdate(prevProps: PageProperties, prevState: TestType[]) {
-    if (this.props.match.params.pId !== prevProps.match.params.pId) {
-      console.log("Props updated")
-      this.getPageData()
-      console.log("stateUpdate")
-    } */
-
-
-  private getPageData() {
-    const data: TestType = {
-      testId: 1,
-      name: "Test 1",
-      numOfQuestions: 60,
-      duration: 30
-    }
-    const data1: TestType = {
-      testId: 1,
-      name: "Test 2",
-      numOfQuestions: 100,
-      duration: 75
-    }
-    this.setState({
-      tests: [data, data1],
-
-    })
-  }
+   } 
+  
+  
 
 }
 export default TestList;

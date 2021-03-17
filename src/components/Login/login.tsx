@@ -1,8 +1,8 @@
 import React from "react";
 import "./Login.css";
-import { Alert, Button, Col, Container, Form } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Modal } from "react-bootstrap";
 import { ECONNRESET } from "constants";
-import api, { ApiResponse, saveToken, saveRefreshToken } from "../../api/api";
+import api, { ApiResponse, saveToken, saveRefreshToken, saveRole, saveUserInfo } from "../../api/api";
 import { Redirect } from "react-router-dom";
 
 
@@ -33,12 +33,12 @@ export class Login extends React.Component {
   };
 
   private doLogin() {
-    const path = `http://localhost:3000/auth/${this.state.role}/login/`;
+    const path = `auth/${this.state.role}/login/`;
     const data = {
       username: this.state.username,
       password: this.state.password
     }
-    console.log(JSON.stringify(data));
+    
     api(
       path,
       "post",
@@ -61,17 +61,17 @@ export class Login extends React.Component {
           
           return;
         }
-        console.log("res::",res);
-        saveToken(res.data.token);
-        saveRefreshToken(res.data.refreshToken);
-        
-        const userId = res.data.id;
-        this.errorMessageChange("");
-        this.setLoginState(true);
+        console.log(res);
         this.setUserId(res.data.id);
-        console.log("state: " ,this.state);
+        this.setLoginState(true);
         
+        saveToken(this.state.role, res.data.token);
+        saveRefreshToken(this.state.role, res.data.refreshToken);
+        saveRole(this.state.role);
+        console.log(res.data.userInfo);
+        saveUserInfo(res.data.userIfno);
 
+ 
     })
   }
 
@@ -106,22 +106,25 @@ export class Login extends React.Component {
   }
 
   render() {
-    if(this.state.isLoggedIn === true) {
+     if(this.state.isLoggedIn === true) {
       const role = this.state.role;
       const userId = this.state.userId;
     
-      const newRoute = `#auth/$[role]/:$[userId]/moji_testovi`
+      const newRoute = `api/${role}/${userId}/moji_testovi`
       return (
+     
         <Redirect to = {newRoute}></Redirect>
+        
+       
       )
-    }
+    } 
     return (
       <Container>
         <Col md = {{ span:6, offset: 3} }>
         <p id = "formMassage">Ulogujte se da bi ste koristili aplikaciju</p>
         <Form>
           <Form.Group >
-            <Form.Label htmlFor = "username">Korisnicko ime (indeks)</Form.Label>
+            <Form.Label htmlFor = "username">Korisnicko ime/Indeks</Form.Label>
             <Form.Control 
               id = "username" 
               type = "username" 

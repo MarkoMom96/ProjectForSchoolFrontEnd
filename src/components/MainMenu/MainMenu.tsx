@@ -8,7 +8,6 @@ export class MainMenuItem{
     linkName: string = "";
     linkHref: string = "#";
 
-
     constructor(linkName: string, linkHref: string) {
       this.linkName = linkName;
       this.linkHref = linkHref;

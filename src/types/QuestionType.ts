@@ -1,8 +1,8 @@
-import AnswerType from "./AnswerTyper"
+import AnswerType from "./AnswerTyper";
 
 export default class QuestionType {
-  id?: number
-  testId?: number
-  name?: string
-  answers?: AnswerType[]
+	id?: number;
+	testId?: number;
+	Name?: string;
+	answers?: AnswerType[];
 }
