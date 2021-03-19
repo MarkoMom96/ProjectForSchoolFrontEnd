@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { getTokenSourceMapRange } from "typescript";
 import { ApiConfig } from "../config/api.config";
 
 export interface ApiResponse {
@@ -21,6 +20,13 @@ export function saveRole(role: string) {
 export function saveUserInfo(info: { forename: string; surname: string }) {
 	localStorage.setItem("forename", info.forename);
 	localStorage.setItem("surname", info.surname);
+}
+export function getUserInfo() {
+	const res = {
+		forename: localStorage.getItem("forename"),
+		surname: localStorage.getItem("surname"),
+	};
+	return res;
 }
 function getToken(role: string): string {
 	const token = localStorage.getItem(`api_token_${role}`);

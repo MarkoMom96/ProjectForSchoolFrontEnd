@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { HashRouter, Link } from 'react-router-dom';
-import { user } from '../..';
+import { getUserInfo } from '../../api/api';
 import './MainMenu.css';
 
 export class MainMenuItem{
@@ -45,6 +45,7 @@ export class MainMenu extends React.Component<MainMenuProperties> {
 
 
   render() {
+    const info = getUserInfo();
   return (
     <Container  className="borderL borderR p-0">
       <Navbar  expand="md" className = "p-0">
@@ -57,7 +58,7 @@ export class MainMenu extends React.Component<MainMenuProperties> {
             <Nav.Link href="/">Odjava</Nav.Link>
           </Nav>        
         </Navbar.Collapse>
-        <Navbar.Text className = "ml-auto pr-2" >Korisnik: { user }</Navbar.Text>
+        <Navbar.Text className = "ml-auto pr-2" >Korisnik: { `${info.forename} ${info.surname}` }</Navbar.Text>
       </Navbar>
     </Container>
   );

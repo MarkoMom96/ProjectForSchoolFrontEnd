@@ -1,13 +1,13 @@
 import React from 'react';
 import './TestList.css';
-import { Button, ButtonGroup, Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { Alert, Button, ButtonGroup, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import TestType from '../../types/TestType';
-import QuestionType from '../../types/QuestionType';
-import { Redirect } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
+import { Link, } from 'react-router-dom';
+import { TestApiResponseDto } from '../../ApiResponseDto/TestApiResponse.dto';
 
 
-interface PageProperties {
+interface TestListProperties {
   match: {
     params: {
       id: number;
@@ -20,100 +20,160 @@ interface TestPageState {
   message: string
   tests?: TestType[]
 }
-interface ApiResponseTestDto {
-  testId: number
-  testName: string
-  duration: number
-  isActive: boolean
-}
 
 
-export class TestList extends React.Component<PageProperties> {
 
+export class TestList extends React.Component<TestListProperties> {
+ 
   state: TestPageState
 
-  constructor(props: Readonly<PageProperties>) {
+  constructor(props: Readonly<TestListProperties>) {
     super(props)
     this.state = {
       isLoggedin:true,
-      message: ""
+      message: "",
+
     }
 
   }
 
- private putDataInState(data: ApiResponseTestDto[]){
-   
-  const testsForState: TestType[] = data.map(item =>{
-    return {
-      testId: item.testId,
-      testName: item.testName,
-      duration: item.duration,
-      isActive: item.isActive
-    }
-  });
-      const newState = Object.assign(this.state,{
-        tests: testsForState
-      })
-      this.setState(newState);
- }
 
+ // /profesor/${this.props.match.params.id} ?filter=testId||$eq||1
   getProfessorTests() {
-    api(`api/test/profesor/${this.props.match.params.id}`,"get", {}, "profesor")
+    api(`api/test/?filter=professorId||$eq||${this.props.match.params.id}`,"get", {}, "profesor")
     .then((res:ApiResponse)=>{
-      console.log(res)
       if(res.status === 'ok'){
-        if(!res.data.status) {
+        console.log("res: ", res)
+          if(res.data.length === 0) {
+            this.setMessage("Nemate nijedan test");
+            return;
+          } 
           this.setMessage("")
           this.putDataInState(res.data);
           return;
-          }
-        this.setMessage("Doslo je do greske")
+        
+        
         }
+        this.setMessage("Doslo je do greske")
     })
 
   }
-  setMessage(message: string) {
-    const newState = Object.assign(this.state,{
+
+  private putDataInState(data: TestApiResponseDto[]){
+    const testsForState: TestType[] = data.map(item =>{
+      return {
+        testId: item.testId,
+        professorId: item.professorId,
+        testName: item.testName,
+        duration: item.duration,
+        isActive: item.isActive
+      }
+    });
+        const newState = Object.assign(this.state,{
+          tests: testsForState
+        })
+        this.setState(newState);
+   }
+ 
+
+ setMessage(message: string) {
+    this.setState(Object.assign(this.state,{
       message: message
-    })
-    this.setState(newState);
+    }));
   }
+
+  activateTest = (id: number | undefined) => {
+        api(
+          `api/test/${id}`,
+          "patch",
+          {
+            isActive: 1
+          },
+          "profesor")
+          .then((res) => {
+            console.log(res)
+            if(res.status === "error") {
+              this.setMessage("Doslo je do greske")
+              return;
+            }
+            
+            this.getProfessorTests()
+          })       
+  }
+  deactivateTest = (id: number | undefined) => {
+    api(
+      `api/test/${id}`,
+      "patch",
+      {
+        isActive: 0
+      },
+      "profesor")
+      .then((res) => {
+        console.log(res)
+        if(res.status === "error") {
+          this.setMessage("Doslo je do greske")
+          return;
+        }
+        this.getProfessorTests()
+      })       
+  }
+
 
   render() {
-    console.log(this.state)
     if(this.state.message !== "") {
+      let variant = "info";
+      if(this.state.message === "Doslo je do greske") variant = "danger";
+
       return (
         <Container>
-          <p>{this.state.message}</p>    
+          <Alert className = "mt-3" variant= {variant}>{this.state.message}</Alert>  
         </Container>    
       )
         
     }
     return (
       <Container className="borderLR px-0">
-        {this.state.tests?.map(this.showTest)}
+        {this.state.tests?.map(this.showProfessorTest)}
       </Container>
       
     );
   }
-  private showTest(test: TestType) {
+   showProfessorTest = (test: TestType) => {
     return (
       <ListGroup key={test.testId}>
         <ListGroup.Item className="p-1 pl-2">
           <Row noGutters>
-            <p className="testName">{test.testName}</p>
+            <b className="testName">{test.testName}</b>
           </Row>
           <Row noGutters>
             <Col xs="auto">
-              <p className="testInfo">Broj pitanja: {test.questions?.length}</p>
               <p className="testInfo">Vreme trajanja: {test.duration} </p>
             </Col>
             <Col>
               <ButtonGroup className="float-right">
-                {test.isActive ? <Button href="#" className=" p-1 mr-1 mt-2">Deaktiviraj</Button>
-                 :<Button href="#" className=" p-1 mr-1 mt-2">Aktiviraj</Button> }
-                <Button href="#" className=" p-1 mr-1 mt-2">Promeni</Button>
-                <Button href="#" className=" p-1 mt-2">Pitanja</Button>
+                {test.isActive ? 
+                <Button 
+                  className=" p-1 mr-1 mt-2"
+                  onClick ={this.deactivateTest.bind(this, test.testId)}
+                  >Deaktiviraj</Button>
+                :<Button 
+                  className=" p-1 mr-1 mt-2"
+                  onClick ={this.activateTest.bind(this, test.testId)}>Activiraj</Button>
+                  }
+                <Button 
+                  className=" p-1 mr-1 mt-2">
+                  <Link
+                    to = {`test/${test.testId}/izmeni`} 
+                    className= "LinkStyle" >Izmeni
+                  </Link>
+                  </Button>
+                <Button 
+                  className=" p-1 mt-2">
+                    <Link
+                      to = {`test/${test.testId}/`} 
+                      className= "LinkStyle" >Pitanja
+                    </Link>
+                  </Button>
               </ButtonGroup>
             </Col>
           </Row>
@@ -121,23 +181,17 @@ export class TestList extends React.Component<PageProperties> {
       </ListGroup>
     )
   }
-
+  
   componentDidMount() {
     this.getProfessorTests(); 
   }
-  //componentDidUpdate(){
 
-  //}
     
-    componentDidUpdate(prevProps: PageProperties, prevState: TestPageState ) {
-      if(this.props !== prevProps){
-        console.warn("Change Props")
-        this.getProfessorTests();
-     
-     /* if(this.state !== prevState){
-      console.warn("Change State")
+  componentDidUpdate(prevProps: TestListProperties, prevState: TestPageState ) {
+    if(this.props !== prevProps){
+      console.warn("Change Props")
       this.getProfessorTests();
-     } */
+     
   }
    } 
   

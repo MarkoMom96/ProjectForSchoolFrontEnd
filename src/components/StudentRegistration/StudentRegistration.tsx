@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert, Button, Col, Container, Form } from "react-bootstrap";
-import api, { ApiResponse, saveRefreshToken, saveToken } from "../../api/api";
+import api, { ApiResponse } from "../../api/api";
 import "./StudentRegistration.css";
 
 

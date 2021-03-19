@@ -1,13 +1,21 @@
-.borderLR{
-    border-left:black 1px solid;
-    border-right:black 1px solid;
+.borderLR {
+	border-left: black 1px solid;
+	border-right: black 1px solid;
 }
 .testName {
-  font-size: 18px;
-  margin-bottom: 5px;
-  
+	font-size: 20px;
+	margin-bottom: 5px;
 }
 .testInfo {
-  font-size: 14px;
-  margin-bottom: 0px;
+	font-size: 14px;
+	margin-bottom: 0px;
+}
+
+.LinkStyle {
+	text-decoration: none;
+	color: #fff;
+}
+.LinkStyle:hover {
+	text-decoration: none;
+	color: #fff;
 }

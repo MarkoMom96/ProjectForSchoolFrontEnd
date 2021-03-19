@@ -15,6 +15,9 @@ import StudentRegistration from './components/StudentRegistration/StudentRegistr
 import NewTest from './components/NewTest/NewTest';
 import { HashRouter, Route } from "react-router-dom";
 import Switch from 'react-bootstrap/esm/Switch';
+import EditTest from './components/EditTest/EditTest';
+import { QuestionList } from './components/QuestionList/QuestionList';
+import EditQuestion from './components/EditQuestion/EditQuestion';
 
 
 export const user = "Marko Momcilovic";
@@ -35,10 +38,13 @@ ReactDOM.render(
     <MainMenu items = { menuOptions }></MainMenu>
     <HashRouter>
       <Switch className = "p-0">
-        <Route exact path = "/" component = {Login}/>
+        <Route exact path = "/" component = { Login }/>
         <Route exact path = "/api/:role/:id/moji_testovi" component = { TestList }/>
         <Route exact path = "/api/:role/:id/registracija_studenta" component = { StudentRegistration }/>
         <Route exact path = "/api/:role/:id/novi_test" component = { NewTest }/>
+        <Route exact path = "/api/:role/:id/test/:tId/izmeni" component = { EditTest }/>
+        <Route exact path = "/api/:role/:id/test/:tId" component = { QuestionList }/>
+        <Route exact path = "/api/:role/:id/test/:tId/pitanje/:qId/izmeni" component = { EditQuestion }/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

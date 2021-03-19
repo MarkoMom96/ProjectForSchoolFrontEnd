@@ -1,22 +1,30 @@
 import React from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
+import api from "../../api/api";
 
-
+interface NewTestProps{
+  match: {
+    params: {
+      id: number;
+      
+    }
+  }
+}
 interface NewTestState {
-  name: string
+  testName: string
   duration: number
-  professorId: number | undefined
+  
 }
 
-export class NewTest extends React.Component {
+export class NewTest extends React.Component<NewTestProps> {
   state: NewTestState;
-  constructor(props: {} | Readonly<{}>) {
+  constructor(props: NewTestProps) {
     super(props)
 
     this.state = {
-      name: "",
+      testName: "",
       duration: 30,
-      professorId: undefined
+      
     }
   }
 
@@ -24,8 +32,16 @@ export class NewTest extends React.Component {
 
   private createTest() {
     const data = {
-      name:this.state.name
+      testName:this.state.testName,
+      duration: this.state.duration,
+      professorId: this.props.match.params.id
     }
+    console.log(data);
+    api("api/test", "post", data, "profesor")
+    .then((res)=>{
+      console.log(res);
+      
+    })
   }
 
 
@@ -38,9 +54,9 @@ export class NewTest extends React.Component {
             <Form.Group >
               <Form.Label>Naziv testa</Form.Label>
               <Form.Control
-                id = "name"
+                id = "testName"
                 type="username"
-                value = {this.state.name}
+                value = {this.state.testName}
                 onChange = {event=>{this.formInputChangeHandler(event as any)}} />
             </Form.Group>
             <Form.Group>
@@ -53,7 +69,8 @@ export class NewTest extends React.Component {
             </Form.Group>
             <Button 
               variant="primary" 
-              type="submit">
+              type="submit"
+              onClick = {()=> this.createTest()}  >
               Sacuvaj
             </Button>
           </Form>
