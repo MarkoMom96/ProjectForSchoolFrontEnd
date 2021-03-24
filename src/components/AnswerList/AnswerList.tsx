@@ -1,13 +1,15 @@
-import React, { Component } from "react";
+import React  from "react";
 import { Alert, Button, ButtonGroup, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import api, { ApiResponse } from "../api/api";
-import { AnswerApiResponseDto } from "../ApiResponseDto/AnswerApiResponse.dto";
-import AnswerType from "../types/AnswerTyper";
+import api, { ApiResponse } from "../../api/api";
+import { AnswerApiResponseDto } from "../../ApiResponseDto/AnswerApiResponse.dto";
+import AnswerType from "../../types/AnswerTyper";
+import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 
 interface AnswerListProperties {
   match:{
     params: {
+      id: number
       tId: number
       qId: number
       aId: number
@@ -103,11 +105,18 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
     }
     return(
       <Container className="borderLR px-0">
+        <SpecificMainMenu 
+        case = {"profesorAnswer"} 
+        id = {this.props.match.params.id} 
+        tId = {this.props.match.params.tId} 
+        qId = {this.props.match.params.qId} />
         <Card>
         <Card.Title className = " mt-1 pl-3" style = {{textAlign:'center',fontSize:"26px"}}>{this.state.questionName}</Card.Title>
           <Card.Subtitle  className = "mb-2" style = {{textAlign:'center'}}>{`Broj tacnih odgovora: ${this.state.NumberOfCorrentAnswers}`}</Card.Subtitle >
         <Card.Body className = "p-0">
+          <ListGroup>
             {this.state.answers?.map(this.showAnswersForQuestion)}     
+          </ListGroup>
         </Card.Body>
       </Card>
       </Container>
@@ -115,8 +124,8 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
   }
   showAnswersForQuestion =  (answer: AnswerType) => {
     return (
-      <ListGroup key={answer.id} className = "d-flex">
-        <ListGroup.Item className="p-1 pl-2">
+      
+        <ListGroup.Item key={answer.id} className="p-1 pl-2">
           <Row noGutters>
             <p className="testName">{answer.name} {answer.isCorrectAnswer ? ` (correct answer)`: null}</p>
           </Row>
@@ -140,7 +149,7 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
             </Col>
           </Row>
         </ListGroup.Item>
-      </ListGroup>
+     
     )
   
   }

@@ -146,15 +146,16 @@ export class TestList extends React.Component<TestListProperties> {
      <> 
       <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id}/>
       <Container className="borderLR px-0">
+        <ListGroup>
         {this.state.tests?.map(this.showProfessorTest)}
+        </ListGroup>
       </Container>
     </> 
     );
   }
    showProfessorTest = (test: TestType) => {
-    return (
-      <ListGroup key={test.id}>
-        <ListGroup.Item className="p-1 pl-2">
+    return ( 
+        <ListGroup.Item key={test.id} className="p-1 pl-2">
           <Row noGutters>
             <b className="testName">{test.testName}</b>
           </Row>
@@ -191,7 +192,7 @@ export class TestList extends React.Component<TestListProperties> {
             </Col>
           </Row>
         </ListGroup.Item>
-      </ListGroup>
+      
     )
   }
   

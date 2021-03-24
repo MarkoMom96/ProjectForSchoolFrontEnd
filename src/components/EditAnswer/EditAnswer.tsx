@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Button, ButtonGroup, Col, Container, Form, FormCheck, Row, ToggleButton } from 'react-bootstrap';
+import { Alert, Button, ButtonGroup, Col, Container, Form, FormCheck } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
 
@@ -112,7 +112,7 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
               className = "ml-1" 
               variant="secondary">
               <Link 
-                className = "LinkStyle" // api/profesor/1/test/tid/pitanje/qid/
+                className = "LinkStyle" 
                 to = {`/api/profesor/${this.props.match.params.id}/test/${this.props.match.params.tId}/pitanje/${this.props.match.params.qId}/`} >Nazad</Link>
             </Button>
           </ButtonGroup>

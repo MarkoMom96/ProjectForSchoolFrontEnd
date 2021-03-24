@@ -68,7 +68,7 @@ export class NewTest extends React.Component<NewTestProps> {
     return (
       <Container className="px-0">
         <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
-        <p className = "text-center lead" >Kreiranje testa</p>
+        <p className = "text-center lead" >Dodavanje testa</p>
         <Col md = {{span: 8, offset: 2}}>
           <Form>
             <Form.Group >

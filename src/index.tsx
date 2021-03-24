@@ -8,7 +8,6 @@ import "popper.js/dist/popper.js";
 import "bootstrap/dist/js/bootstrap.min.js"
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import { Banner } from "./components/AppBanner/banner";
-import MainMenu, { MainMenuItem } from './components/MainMenu/MainMenu';
 import { Login } from './components/Login/Login';
 import TestList from './components/TestList/TestList';
 import StudentRegistration from './components/StudentRegistration/StudentRegistration';
@@ -18,21 +17,11 @@ import Switch from 'react-bootstrap/esm/Switch';
 import EditTest from './components/EditTest/EditTest';
 import { QuestionList } from './components/QuestionList/QuestionList';
 import EditQuestion from './components/EditQuestion/EditQuestion';
-import AnswerList from './AnswerList/AnswerList';
+import AnswerList from './components/AnswerList/AnswerList';
 import EditAnswer from './components/EditAnswer/EditAnswer';
-
-
-
-const menuOptions = [
-    new MainMenuItem("Moji testovi","/api/profesor/0/moji_testovi"),
-    new MainMenuItem("Registracija studenta", "/api/profesor/0/registracija_studenta"),
-    new MainMenuItem("Dodaj test", "/api/profesor/0/novi_test")
-
-  ];
-
-
-  
-
+import FinishedTests from './components/FinishedTests/FinishedTests';
+import  NewQuestion  from './components/NewQuestion/NewQuestion';
+import NewAnswer from './components/NewAnswer/NewAnswer';
 
 
 ReactDOM.render(
@@ -41,14 +30,17 @@ ReactDOM.render(
     <HashRouter>
       <Switch className = "p-0">
         <Route exact path = "/" component = { Login }/>
-        <Route exact path = "/api/:role/:id/moji_testovi" component = { TestList }/>
+        <Route exact path = "/api/profesor/:id/moji_testovi" component = { TestList }/>
         <Route exact path = "/api/profesor/:id/registracija_studenta" component = { StudentRegistration }/>
         <Route exact path = "/api/profesor/:id/novi_test" component = { NewTest }/>
         <Route exact path = "/api/profesor/:id/test/:tId/izmeni" component = { EditTest }/>
         <Route exact path = "/api/profesor/:id/test/:tId" component = { QuestionList }/>
+        <Route exact path = "/api/profesor/:id/test/:tId/novo_pitanje" component = { NewQuestion }/>
         <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/izmeni" component = { EditQuestion }/>
+        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/novi_odgovor" component = { NewAnswer }/>
         <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/" component = { AnswerList }/>
         <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/odgovor/:aId/izmeni" component = { EditAnswer }/>
+        <Route exact path = "/api/student/:id/moji_testovi/" component = { FinishedTests }/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

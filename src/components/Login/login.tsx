@@ -31,7 +31,7 @@ export class Login extends React.Component {
     }
   };
 
-  private doLogin() {
+  private doLogin = () => {
     const path = `auth/${this.state.role}/login/`;
     const data = {
       username: this.state.username,
@@ -67,7 +67,7 @@ export class Login extends React.Component {
         saveToken(this.state.role, res.data.token);
         saveRefreshToken(this.state.role, res.data.refreshToken);
         saveRole(this.state.role);
-        saveUserInfo(res.data.userIfno);
+        saveUserInfo(res.data.userInfo);
 
         console.log(res.data.userInfo);
         this.setLoginState(true);
@@ -111,9 +111,8 @@ export class Login extends React.Component {
       const role = this.state.role;
       const userId = this.state.userId;
       return (
-        this.state.role === "student" ? 
-        <Redirect to = {`api/student/${userId}/aktivni_testovi`}></Redirect> : 
-        <Redirect to = {`api/profesor/${userId}/moji_testovi`} ></Redirect>
+        <Redirect to = {`api/${role}/${userId}/moji_testovi`}></Redirect> 
+        //<Alert variant = "info"> {`api/${role}/${userId}/moji_testovi`}</Alert>
         
       )
     } 
@@ -155,7 +154,7 @@ export class Login extends React.Component {
           <Button 
             variant = "primary"
             type = "submit"
-            onClick= { () => this.doLogin() }>
+            onClick= {this.doLogin }>
             Uloguj se
           </Button>
         </Form>

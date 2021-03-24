@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 import api, { ApiResponse } from '../../api/api'
 import { QuestionApiResponseDto } from '../../ApiResponseDto/QuestionApiResponse.dto'
 import QuestionType from '../../types/QuestionType'
+import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 
 
 interface QuestionListProperties {
   match: {
     params: {
+      id: number;
       tId: number;
     }
   }
@@ -82,8 +84,8 @@ export class QuestionList extends React.Component<QuestionListProperties> {
 
   showQestionForTest =  (question: QuestionType) => {
     return (
-      <ListGroup key={question.id} className = "d-flex">
-        <ListGroup.Item className="p-1 pl-2">
+     
+        <ListGroup.Item key={question.id} className="p-1 pl-2">
           <Row noGutters>
             <p className="testName">{question.name}</p>
           </Row>
@@ -108,7 +110,7 @@ export class QuestionList extends React.Component<QuestionListProperties> {
             </Col>
           </Row>
         </ListGroup.Item>
-      </ListGroup>
+    
     )
   
   }
@@ -127,11 +129,14 @@ render() {
   }
   return(
     <Container className="borderLR px-0">
+       <SpecificMainMenu case = {"profesorQuestion"} id = {this.props.match.params.id} tId = {this.props.match.params.tId} />
       <Card>
         <Card.Title className = " mt-1 pl-3" style = {{textAlign:'center',fontSize:"26px"}}>{this.state.testName}</Card.Title>
           <Card.Subtitle  className = "mb-2" style = {{textAlign:'center'}}>{`Broj pitanja: ${this.state.numberOfQuestions}`}</Card.Subtitle >
         <Card.Body className = "p-0">
+          <ListGroup>
             {this.state.questions?.map(this.showQestionForTest)}
+          </ListGroup>
         </Card.Body>
       </Card>
        
