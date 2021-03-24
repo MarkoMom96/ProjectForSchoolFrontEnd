@@ -3,8 +3,9 @@ import './TestList.css';
 import { Alert, Button, ButtonGroup, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import TestType from '../../types/TestType';
 import api, { ApiResponse } from '../../api/api';
-import { Link, } from 'react-router-dom';
+import { Link, Redirect, } from 'react-router-dom';
 import { TestApiResponseDto } from '../../ApiResponseDto/TestApiResponse.dto';
+import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu';
 
 
 interface TestListProperties {
@@ -51,18 +52,22 @@ export class TestList extends React.Component<TestListProperties> {
           this.setMessage("")
           this.putDataInState(res.data);
           return;
-        
-        
+        }
+        if(res.status === "login") {
+          this.setMessage("login");
+          return;
         }
         this.setMessage("Doslo je do greske")
-    })
+    
+      })
 
   }
 
   private putDataInState(data: TestApiResponseDto[]){
-    const testsForState: TestType[] = data.map(item =>{
+    console.log("dataForState: ", data);
+    const testsForState: TestType[] = data?.map(item =>{
       return {
-        testId: item.testId,
+        id: item.testId,
         professorId: item.professorId,
         testName: item.testName,
         duration: item.duration,
@@ -82,7 +87,7 @@ export class TestList extends React.Component<TestListProperties> {
     }));
   }
 
-  activateTest = (id: number | undefined) => {
+  activateTest = (id: number) => {
         api(
           `api/test/${id}`,
           "patch",
@@ -100,7 +105,7 @@ export class TestList extends React.Component<TestListProperties> {
             this.getProfessorTests()
           })       
   }
-  deactivateTest = (id: number | undefined) => {
+  deactivateTest = (id: number) => {
     api(
       `api/test/${id}`,
       "patch",
@@ -120,6 +125,11 @@ export class TestList extends React.Component<TestListProperties> {
 
 
   render() {
+    if(this.state.message === "login") {
+      return <Redirect to = "#"></Redirect>
+    }
+
+
     if(this.state.message !== "") {
       let variant = "info";
       if(this.state.message === "Doslo je do greske") variant = "danger";
@@ -131,16 +141,19 @@ export class TestList extends React.Component<TestListProperties> {
       )
         
     }
+    
     return (
+     <> 
+      <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id}/>
       <Container className="borderLR px-0">
         {this.state.tests?.map(this.showProfessorTest)}
       </Container>
-      
+    </> 
     );
   }
    showProfessorTest = (test: TestType) => {
     return (
-      <ListGroup key={test.testId}>
+      <ListGroup key={test.id}>
         <ListGroup.Item className="p-1 pl-2">
           <Row noGutters>
             <b className="testName">{test.testName}</b>
@@ -154,23 +167,23 @@ export class TestList extends React.Component<TestListProperties> {
                 {test.isActive ? 
                 <Button 
                   className=" p-1 mr-1 mt-2"
-                  onClick ={this.deactivateTest.bind(this, test.testId)}
+                  onClick ={this.deactivateTest.bind(this, test.id!)}
                   >Deaktiviraj</Button>
                 :<Button 
                   className=" p-1 mr-1 mt-2"
-                  onClick ={this.activateTest.bind(this, test.testId)}>Activiraj</Button>
+                  onClick ={this.activateTest.bind(this, test.id!)}>Activiraj</Button>
                   }
                 <Button 
                   className=" p-1 mr-1 mt-2">
                   <Link
-                    to = {`test/${test.testId}/izmeni`} 
+                    to = {`test/${test.id}/izmeni`} 
                     className= "LinkStyle" >Izmeni
                   </Link>
                   </Button>
                 <Button 
                   className=" p-1 mt-2">
                     <Link
-                      to = {`test/${test.testId}/`} 
+                      to = {`test/${test.id}/`} 
                       className= "LinkStyle" >Pitanja
                     </Link>
                   </Button>
@@ -183,7 +196,9 @@ export class TestList extends React.Component<TestListProperties> {
   }
   
   componentDidMount() {
-    this.getProfessorTests(); 
+      this.getProfessorTests(); 
+    
+    
   }
 
     

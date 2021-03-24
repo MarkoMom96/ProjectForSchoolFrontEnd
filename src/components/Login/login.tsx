@@ -46,7 +46,7 @@ export class Login extends React.Component {
       )
       
     .then((res: ApiResponse) => {
-     
+      console.log(res);
       if(res.status === "error") {
         this.errorMessageChange("Could you try that again please")
         return;
@@ -60,18 +60,20 @@ export class Login extends React.Component {
           
           return;
         }
-        console.log(res);
+        
         this.setUserId(res.data.id);
-        this.setLoginState(true);
+       
         
         saveToken(this.state.role, res.data.token);
         saveRefreshToken(this.state.role, res.data.refreshToken);
         saveRole(this.state.role);
-        console.log(res.data.userInfo);
         saveUserInfo(res.data.userIfno);
 
+        console.log(res.data.userInfo);
+        this.setLoginState(true);
+
  
-    })
+    }) 
   }
 
   private setUserId(id: number){
@@ -108,13 +110,11 @@ export class Login extends React.Component {
      if(this.state.isLoggedIn === true) {
       const role = this.state.role;
       const userId = this.state.userId;
-    
-      const newRoute = `api/${role}/${userId}/moji_testovi`
       return (
-     
-        <Redirect to = {newRoute}></Redirect>
+        this.state.role === "student" ? 
+        <Redirect to = {`api/student/${userId}/aktivni_testovi`}></Redirect> : 
+        <Redirect to = {`api/profesor/${userId}/moji_testovi`} ></Redirect>
         
-       
       )
     } 
     return (

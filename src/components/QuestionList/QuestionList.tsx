@@ -14,6 +14,8 @@ interface QuestionListProperties {
   }
 }
 interface QuestionListState {
+  testName: string
+  numberOfQuestions: number
   questions: QuestionType[]
   message: string
 }
@@ -25,13 +27,15 @@ export class QuestionList extends React.Component<QuestionListProperties> {
     super(props)
   
     this.state = {
+      testName: "",
+      numberOfQuestions: 0,
       questions: [],
       message: ""
     }
   }
 
   getQuestionsForTest() {
-    api(`api/question/?filter=testId||$eq||${this.props.match.params.tId}`,"get", {}, "profesor")
+    api(`api/test/${this.props.match.params.tId}`,"get", {}, "profesor")
     .then((res:ApiResponse)=>{
       if(res.status === 'ok'){
         console.log("res: ", res.data)
@@ -40,7 +44,12 @@ export class QuestionList extends React.Component<QuestionListProperties> {
             return;
           } 
           this.setMessage("")
-          this.putQuestinsInState(res.data);
+          this.putQuestinsInState(res.data.questions);
+          this.setState(Object.assign(this.state, {
+            testName: res.data.testName,
+            numberOfQuestions: res.data.questions.length
+          }))
+          console.log(this.state);
           return;
           
         
@@ -48,8 +57,10 @@ export class QuestionList extends React.Component<QuestionListProperties> {
         this.setMessage("Doslo je do greske")
     })
   }
-  putQuestinsInState(questions : QuestionApiResponseDto[]) {
-    const questionsForState: QuestionType[] = questions.map(item=>{
+  
+  
+  putQuestinsInState(data : QuestionApiResponseDto[]) {
+    const questionsForState: QuestionType[] = data.map(item=>{
       return {
         id: item.questionId,
         testId: item.testId,
@@ -57,7 +68,6 @@ export class QuestionList extends React.Component<QuestionListProperties> {
       }
     });
       this.setState(Object.assign(this.state, {
-
         questions: questionsForState
       }))
 
@@ -81,10 +91,17 @@ export class QuestionList extends React.Component<QuestionListProperties> {
             <Col>
               <ButtonGroup className="float-right">
                 <Button 
-                  className=" p-1 mt-2">
+                  className=" p-1 mr-1">
                     <Link
                       to = {`pitanje/${question.id}/izmeni`} 
                       className= "LinkStyle" >Izmeni
+                    </Link>
+                  </Button>
+                  <Button 
+                  className=" p-1">
+                    <Link
+                      to = {`pitanje/${question.id}/`} 
+                      className= "LinkStyle" >Odgovori
                     </Link>
                   </Button>
               </ButtonGroup>
@@ -110,7 +127,14 @@ render() {
   }
   return(
     <Container className="borderLR px-0">
-       {this.state.questions?.map(this.showQestionForTest)}
+      <Card>
+        <Card.Title className = " mt-1 pl-3" style = {{textAlign:'center',fontSize:"26px"}}>{this.state.testName}</Card.Title>
+          <Card.Subtitle  className = "mb-2" style = {{textAlign:'center'}}>{`Broj pitanja: ${this.state.numberOfQuestions}`}</Card.Subtitle >
+        <Card.Body className = "p-0">
+            {this.state.questions?.map(this.showQestionForTest)}
+        </Card.Body>
+      </Card>
+       
     </Container>
   )
 }

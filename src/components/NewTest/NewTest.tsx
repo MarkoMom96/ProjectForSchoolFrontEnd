@@ -1,6 +1,8 @@
 import React from "react";
-import { Button, Col, Container, Form } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 import api from "../../api/api";
+import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 
 interface NewTestProps{
   match: {
@@ -13,6 +15,7 @@ interface NewTestProps{
 interface NewTestState {
   testName: string
   duration: number
+  message: string
   
 }
 
@@ -24,6 +27,7 @@ export class NewTest extends React.Component<NewTestProps> {
     this.state = {
       testName: "",
       duration: 30,
+      message: "",
       
     }
   }
@@ -39,21 +43,37 @@ export class NewTest extends React.Component<NewTestProps> {
     console.log(data);
     api("api/test", "post", data, "profesor")
     .then((res)=>{
-      console.log(res);
+      if(res.status === "error") {
+        this.setMessage("Doslo je do greske!")
+        return;
+      }
+      if(res.status === "login") {
+        this.setMessage("login")
+        return;
+      }
+      this.setMessage("Test uspesno kreiran!")
       
     })
   }
-
+  setMessage(message: string) {
+    this.setState(Object.assign(this.state,{
+      message: message
+    }));
+  }
 
   render() {
+    if(this.state.message === "login") {
+      return <Redirect to = "#"></Redirect>
+    }
     return (
-      <Container className = "pt-5">
+      <Container className="px-0">
+        <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
         <p className = "text-center lead" >Kreiranje testa</p>
         <Col md = {{span: 8, offset: 2}}>
           <Form>
             <Form.Group >
               <Form.Label>Naziv testa</Form.Label>
-              <Form.Control
+              <Form.Control 
                 id = "testName"
                 type="username"
                 value = {this.state.testName}
@@ -73,6 +93,7 @@ export class NewTest extends React.Component<NewTestProps> {
               onClick = {()=> this.createTest()}  >
               Sacuvaj
             </Button>
+            {this.state.message === "Doslo je do greske!"? <Alert variant = "danger">{this.state.message}</Alert>: null}
           </Form>
         </Col>
       </Container>

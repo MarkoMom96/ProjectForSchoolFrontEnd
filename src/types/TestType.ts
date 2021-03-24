@@ -1,7 +1,7 @@
 import QuestionType from "./QuestionType";
 
 export default class TestType {
-	testId?: number;
+	id?: number;
 	testName?: string;
 	duration?: number;
 	isActive?: boolean;

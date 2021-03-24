@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Alert, Button, ButtonGroup, Col, Container, Form} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import api from '../../api/api'
+import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 
 interface EditTestProperties {
   match: {
@@ -68,7 +69,8 @@ export default class EditTest extends Component<EditTestProperties> {
 
   render() {
     return (
-      <Container>
+      <Container className="px-0">
+        <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
         <p className = "text-center lead" >Uredjivanje testa</p>
         <Col md = {{span: 8, offset: 2}}>
           <Form>

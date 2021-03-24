@@ -69,7 +69,7 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
   render() {
     return (
       <Container>
-      <p className = "text-center lead" >Uredjivanje testa</p>
+      <p className = "text-center lead" >Izmena pitanja</p>
       <Col md = {{span: 8, offset: 2}}>
         <Form>
           <Form.Group >

@@ -1,9 +1,17 @@
 import React from "react";
 import { Alert, Button, Col, Container, Form } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 import api, { ApiResponse } from "../../api/api";
+import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 import "./StudentRegistration.css";
 
-
+interface StudentRegistrationProperties {
+  match:{
+    params:{
+      id: number
+    }
+  }
+}
 
 
 interface StudentRegistrationPageState{
@@ -11,20 +19,18 @@ interface StudentRegistrationPageState{
   password: string
   forename:string
   surname: string
-  errorMessage?: string
-  isRegistrationComplited: boolean
+  message?: string
 
 }
 
 
-export class StudentRegistration extends React.Component {
+export class StudentRegistration extends React.Component<StudentRegistrationProperties> {
     state: StudentRegistrationPageState
 
-  constructor(props: {} | Readonly<{}>){
+  constructor(props: StudentRegistrationProperties){
     super(props)
 
       this.state = {
-        isRegistrationComplited:false,
         username: "",
         password: "",
         forename: "",
@@ -35,13 +41,7 @@ export class StudentRegistration extends React.Component {
   }
 
   private compliteRegistration() {
-    const regEx = "/^[0-9]{10}$/";
-    if(!this.state.username.match(regEx)){
-      this.errorMessageChange("Username must contain 10 numbers and nothing else");
-      return;
-    }
-
-    const path = "http://localhost:3000/api/student/";
+    const path = "api/student/";
     const data = {
       username: this.state.username,
       password: this.state.password,
@@ -55,35 +55,41 @@ export class StudentRegistration extends React.Component {
       data,
       "profesor"
       )
-      
     .then((res: ApiResponse) => {
      console.log(res);
       if(res.status === "error") {
-        this.errorMessageChange("Could you try that again please")
+        this.setMessage("Could you try that again please")
         return;
-      }
+      }  
+        if(res.status === "login") {
+          this.setMessage("login");
+          return;
+        }
+      
         
         if(res.data.statusCode !== undefined){
           switch (res.data.statusCode) {
-            case -1001: this.errorMessageChange('This user already exists!');
-            console.log(res);
+            case -1001: this.setMessage('This user already exists!');
             break;
             
         }
           
           return;
         }
-        console.log(res);
-        this.errorMessageChange('');
-        this.RegistratinComplite();
+        this.setMessage('');
+        
 
     })
   }
   
 
   render() {
+    if(this.state.message === "login") {
+      return <Redirect to = "#"></Redirect>
+    }
     return (
-      <Container >
+      <Container className=" px-0">
+        <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
         <p className = "text-center lead">Registracija studenta</p>
         <Col md = {{ span:6, offset: 3} } >
           <Form className = "px-lg-5">
@@ -121,7 +127,7 @@ export class StudentRegistration extends React.Component {
                 value = { this.state.password}
                 onChange = {event=>{this.formInputChangeHandler(event as any)}} />
             </Form.Group>
-            {this.state.errorMessage ? <Alert variant = "danger" >{ this.state.errorMessage }</Alert> : null }
+            {this.state.message === "Could you try that again please" ? <Alert variant = "danger" >{ this.state.message }</Alert> : null }
             <Button
               variant="primary"
               type="submit"
@@ -143,11 +149,10 @@ export class StudentRegistration extends React.Component {
     this.setState(newState);
     console.log(this.state);
   }
-  private errorMessageChange(message: string) {
-    const newState = Object.assign(this.state,{
-      errorMessage: message
-    })
-    this.setState(newState);
+  private setMessage(message: string) {
+    this.setState(Object.assign(this.state,{
+      message: message
+    }));
   }
   private RegistratinComplite() {
     const newState = Object.assign(this.state,{

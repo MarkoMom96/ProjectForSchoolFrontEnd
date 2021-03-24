@@ -18,15 +18,18 @@ import Switch from 'react-bootstrap/esm/Switch';
 import EditTest from './components/EditTest/EditTest';
 import { QuestionList } from './components/QuestionList/QuestionList';
 import EditQuestion from './components/EditQuestion/EditQuestion';
+import AnswerList from './AnswerList/AnswerList';
+import EditAnswer from './components/EditAnswer/EditAnswer';
 
 
-export const user = "Marko Momcilovic";
+
 const menuOptions = [
-    new MainMenuItem("Moji testovi","/api/profesor/1/moji_testovi"),
-    new MainMenuItem("Registracija studenta", "/api/profesor/1/registracija_studenta"),
-    new MainMenuItem("Dodaj test", "/api/profesor/1/novi_test")
+    new MainMenuItem("Moji testovi","/api/profesor/0/moji_testovi"),
+    new MainMenuItem("Registracija studenta", "/api/profesor/0/registracija_studenta"),
+    new MainMenuItem("Dodaj test", "/api/profesor/0/novi_test")
 
-  ]; 
+  ];
+
 
   
 
@@ -35,16 +38,17 @@ const menuOptions = [
 ReactDOM.render(
   <React.StrictMode>
     <Banner></Banner>
-    <MainMenu items = { menuOptions }></MainMenu>
     <HashRouter>
       <Switch className = "p-0">
         <Route exact path = "/" component = { Login }/>
         <Route exact path = "/api/:role/:id/moji_testovi" component = { TestList }/>
-        <Route exact path = "/api/:role/:id/registracija_studenta" component = { StudentRegistration }/>
-        <Route exact path = "/api/:role/:id/novi_test" component = { NewTest }/>
-        <Route exact path = "/api/:role/:id/test/:tId/izmeni" component = { EditTest }/>
-        <Route exact path = "/api/:role/:id/test/:tId" component = { QuestionList }/>
-        <Route exact path = "/api/:role/:id/test/:tId/pitanje/:qId/izmeni" component = { EditQuestion }/>
+        <Route exact path = "/api/profesor/:id/registracija_studenta" component = { StudentRegistration }/>
+        <Route exact path = "/api/profesor/:id/novi_test" component = { NewTest }/>
+        <Route exact path = "/api/profesor/:id/test/:tId/izmeni" component = { EditTest }/>
+        <Route exact path = "/api/profesor/:id/test/:tId" component = { QuestionList }/>
+        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/izmeni" component = { EditQuestion }/>
+        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/" component = { AnswerList }/>
+        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/odgovor/:aId/izmeni" component = { EditAnswer }/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

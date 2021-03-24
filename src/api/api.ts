@@ -59,6 +59,7 @@ export default function api(
 		axios(requestData)
 			.then(res => responseHandler(res, resolve))
 			.catch(async err => {
+				console.log("err.res.status = ", err.response.status);
 				if (err.response.status === 401) {
 					const newToken = await refreshToken(role);
 					console.log("newToken: ", newToken);
@@ -131,6 +132,7 @@ export default function api(
 		if (!refreshTokenResponse.data.token) return null;
 		return refreshTokenResponse.data.token;
 	}
+
 	async function repeatRequest(
 		requestData: AxiosRequestConfig,
 		resolve: (value: ApiResponse) => void
