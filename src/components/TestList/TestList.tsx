@@ -11,7 +11,6 @@ import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu';
 interface TestListProperties {
   match: {
     params: {
-      id: number;
       role: string;
     }
   }
@@ -41,11 +40,12 @@ export class TestList extends React.Component<TestListProperties> {
 
  // /profesor/${this.props.match.params.id} ?filter=testId||$eq||1
   getProfessorTests() {
-    api(`api/test/?filter=professorId||$eq||${this.props.match.params.id}`,"get", {}, "profesor")
+    api(`api/test/profesorTests`,"get", {}, "profesor")
     .then((res:ApiResponse)=>{
+      console.log(res)
       if(res.status === 'ok'){
         console.log("res: ", res)
-          if(res.data.length === 0) {
+          if(res.data.length === 0 || res.data.statusCode === -8003) {
             this.setMessage("Nemate nijedan test");
             return;
           } 
@@ -136,6 +136,7 @@ export class TestList extends React.Component<TestListProperties> {
 
       return (
         <Container>
+          <SpecificMainMenu case= {"profesor"}/>
           <Alert className = "mt-3" variant= {variant}>{this.state.message}</Alert>  
         </Container>    
       )
@@ -144,7 +145,7 @@ export class TestList extends React.Component<TestListProperties> {
     
     return (
      <> 
-      <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id}/>
+      <SpecificMainMenu case= {"profesor"}/>
       <Container className="borderLR px-0">
         <ListGroup>
         {this.state.tests?.map(this.showProfessorTest)}

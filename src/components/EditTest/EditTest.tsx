@@ -7,7 +7,6 @@ import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 interface EditTestProperties {
   match: {
     params: {
-      id: number
       tId: number;
     }
   }
@@ -70,7 +69,7 @@ export default class EditTest extends Component<EditTestProperties> {
   render() {
     return (
       <Container className="px-0">
-        <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
+        <SpecificMainMenu case= {"profesor"} />
         <p className = "text-center lead" >Uredjivanje testa</p>
         <Col md = {{span: 8, offset: 2}}>
           <Form>
@@ -102,7 +101,7 @@ export default class EditTest extends Component<EditTestProperties> {
               variant="secondary">
               <Link 
                 className = "LinkStyle" 
-                to = {`/api/profesor/${this.props.match.params.id}/moji_testovi`} >Nazad</Link>
+                to = {`/api/profesor/moji_testovi`} >Nazad</Link>
             </Button>
             </ButtonGroup>
             {this.state.message? <Alert className = "mt-3" variant= "danger">{this.state.message}</Alert>: null}

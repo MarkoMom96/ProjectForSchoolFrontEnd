@@ -3,7 +3,6 @@ import MainMenu, { MainMenuItem } from '../MainMenu/MainMenu'
 
 interface SpecificMainMenuProperties {
   case: "student" | "profesor" | "profesorQuestion" | "profesorAnswer"
-  id: number
   tId?:number
   qId?: number
 
@@ -33,30 +32,30 @@ export default class SpecificMainMenu extends React.Component<SpecificMainMenuPr
 
   setMenuItemsStudent(){
     return[
-      new MainMenuItem("Moji testovi",`/api/student/${this.props.id}/moji_testovi`),
-      new MainMenuItem("Aktivni testovi",`/api/student/${this.props.id}/aktivni testovi`),
+      new MainMenuItem("Moji testovi",`/api/student/moji_testovi`),
+      new MainMenuItem("Aktivni testovi",`/api/student/aktivni testovi`),
     ]
   }
   setMenuItemsProfesor(){
     return [
-      new MainMenuItem("Moji testovi",`/api/profesor/${this.props.id}/moji_testovi`),
-      new MainMenuItem("Registracija studenta", `/api/profesor/${this.props.id}/registracija_studenta`),
-      new MainMenuItem("Dodaj test", `/api/profesor/${this.props.id}/novi_test`)
+      new MainMenuItem("Moji testovi",`/api/profesor/moji_testovi`),
+      new MainMenuItem("Registracija studenta", `/api/profesor/registracija_studenta`),
+      new MainMenuItem("Dodaj test", `/api/profesor/novi_test`)
 
     ]
   }
   setMenuItemsProfesorQ(){
     return [
-      new MainMenuItem("Moji testovi",`/api/profesor/${this.props.id}/moji_testovi`),
-      new MainMenuItem("Registracija studenta", `/api/profesor/${this.props.id}/registracija_studenta`),
-      new MainMenuItem("Dodaj pitanje", `/api/profesor/${this.props.id}/test/${this.props.tId}/novo_pitanje`)
+      new MainMenuItem("Moji testovi",`/api/profesor/moji_testovi`),
+      new MainMenuItem("Registracija studenta", `/api/profesor/registracija_studenta`),
+      new MainMenuItem("Dodaj pitanje", `/api/profesor/test/${this.props.tId}/novo_pitanje`)
     ]
   }
   setMenuItemsProfesorA(){
     return [
-      new MainMenuItem("Moji testovi",`/api/profesor/${this.props.id}/moji_testovi`),
-      new MainMenuItem("Registracija studenta", `/api/profesor/${this.props.id}/registracija_studenta`),
-      new MainMenuItem("Dodaj odgovor", `/api/profesor/${this.props.id}/test/${this.props.tId}/pitanje/${this.props.qId}/novi_odgovor`)
+      new MainMenuItem("Moji testovi",`/api/profesor/moji_testovi`),
+      new MainMenuItem("Registracija studenta", `/api/profesor/registracija_studenta`),
+      new MainMenuItem("Dodaj odgovor", `/api/profesor/test/${this.props.tId}/pitanje/${this.props.qId}/novi_odgovor`)
     ]
   }
 }

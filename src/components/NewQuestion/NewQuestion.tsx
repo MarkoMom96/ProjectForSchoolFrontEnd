@@ -7,7 +7,6 @@ import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 interface NewQuestionProps{
   match: {
     params: {
-      id: number;
       tId: number;
       qId: number;
       
@@ -60,7 +59,7 @@ export default class NewQuestion extends React.Component<NewQuestionProps> {
     }
     return(
       <Container className="px-0">
-      <SpecificMainMenu case= {"profesorQuestion"} id= {this.props.match.params.id} />
+      <SpecificMainMenu case= {"profesorQuestion"} />
       <p className = "text-center lead" >Dodavanje pitanja</p>
       <Col md = {{span: 8, offset: 2}}>
         <Form>

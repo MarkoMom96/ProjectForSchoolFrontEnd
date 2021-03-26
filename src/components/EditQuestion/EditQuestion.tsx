@@ -2,11 +2,11 @@ import React from 'react'
 import { Alert, Button, ButtonGroup, Col, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import api from '../../api/api';
+import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu';
 
 interface EditQuestionProperties{
   match:{
     params:{
-      id: number
       tId: number
       qId: number
       
@@ -69,35 +69,36 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
   render() {
     return (
       <Container>
-      <p className = "text-center lead" >Izmena pitanja</p>
-      <Col md = {{span: 8, offset: 2}}>
-        <Form>
-          <Form.Group >
-            <Form.Label>Naziv testa</Form.Label>
-            <Form.Control
-              id = "questionName"
-              type="username"
-              value = {this.state.questionName}
-              onChange = {event=>{this.formInputChangeHandler(event as any)}} />
-          </Form.Group>
-          <ButtonGroup >
-            <Button 
-              variant="primary" 
-              type="submit"
-              onClick = {this.modifyQuestion} >
-              Sacuvaj
-            </Button>
-            <Button
-              className = "ml-1" 
-              variant="secondary">
-              <Link 
-                className = "LinkStyle" 
-                to = {`/api/profesor/${this.props.match.params.id}/test/${this.props.match.params.tId}/`} >Nazad</Link>
-            </Button>
-          </ButtonGroup>
-          {this.state.message? <Alert className = "mt-3" variant= "danger">{this.state.message}</Alert>: null}
-        </Form>
-      </Col>
+        <SpecificMainMenu case = {"profesorQuestion"} tId = {this.props.match.params.tId} />
+        <p className = "text-center lead" >Izmena pitanja</p>
+        <Col md = {{span: 8, offset: 2}}>
+          <Form>
+            <Form.Group >
+              <Form.Label>Naziv testa</Form.Label>
+              <Form.Control
+                id = "questionName"
+                type="username"
+                value = {this.state.questionName}
+                onChange = {event=>{this.formInputChangeHandler(event as any)}} />
+            </Form.Group>
+            <ButtonGroup >
+              <Button 
+                variant="primary" 
+                type="submit"
+                onClick = {this.modifyQuestion} >
+                Sacuvaj
+              </Button>
+              <Button
+                className = "ml-1" 
+                variant="secondary">
+                <Link 
+                  className = "LinkStyle" 
+                  to = {`/api/profesor/test/${this.props.match.params.tId}/`} >Nazad</Link>
+              </Button>
+            </ButtonGroup>
+            {this.state.message? <Alert className = "mt-3" variant= "danger">{this.state.message}</Alert>: null}
+          </Form>
+        </Col>
     </Container>
 
 

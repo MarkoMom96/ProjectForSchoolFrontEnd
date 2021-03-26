@@ -7,7 +7,6 @@ import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 interface NewTestProps{
   match: {
     params: {
-      id: number;
       
     }
   }
@@ -38,7 +37,6 @@ export class NewTest extends React.Component<NewTestProps> {
     const data = {
       testName:this.state.testName,
       duration: this.state.duration,
-      professorId: this.props.match.params.id
     }
     console.log(data);
     api("api/test", "post", data, "profesor")
@@ -67,7 +65,7 @@ export class NewTest extends React.Component<NewTestProps> {
     }
     return (
       <Container className="px-0">
-        <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
+        <SpecificMainMenu case= {"profesor"} />
         <p className = "text-center lead" >Dodavanje testa</p>
         <Col md = {{span: 8, offset: 2}}>
           <Form>
@@ -84,6 +82,8 @@ export class NewTest extends React.Component<NewTestProps> {
               <Form.Control
                 id = "duration" 
                 type = "number"
+                min = "1"
+                step = "1"
                 value = {this.state.duration}
                 onChange = {event=>{this.formInputChangeHandler(event as any)}}/>
             </Form.Group>

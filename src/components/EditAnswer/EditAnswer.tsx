@@ -6,7 +6,6 @@ import api, { ApiResponse } from '../../api/api';
 interface EditAnswerProperties {
   match:{
     params: {
-      id: number
       tId: number
       qId: number
       aId: number
@@ -113,7 +112,7 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
               variant="secondary">
               <Link 
                 className = "LinkStyle" 
-                to = {`/api/profesor/${this.props.match.params.id}/test/${this.props.match.params.tId}/pitanje/${this.props.match.params.qId}/`} >Nazad</Link>
+                to = {`/api/profesor/test/${this.props.match.params.tId}/pitanje/${this.props.match.params.qId}/`} >Nazad</Link>
             </Button>
           </ButtonGroup>
           {this.state.message? <Alert className = "mt-3" variant= "danger">{this.state.message}</Alert>: null}

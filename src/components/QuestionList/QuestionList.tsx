@@ -129,7 +129,7 @@ render() {
   }
   return(
     <Container className="borderLR px-0">
-       <SpecificMainMenu case = {"profesorQuestion"} id = {this.props.match.params.id} tId = {this.props.match.params.tId} />
+       <SpecificMainMenu case = {"profesorQuestion"} tId = {this.props.match.params.tId} />
       <Card>
         <Card.Title className = " mt-1 pl-3" style = {{textAlign:'center',fontSize:"26px"}}>{this.state.testName}</Card.Title>
           <Card.Subtitle  className = "mb-2" style = {{textAlign:'center'}}>{`Broj pitanja: ${this.state.numberOfQuestions}`}</Card.Subtitle >

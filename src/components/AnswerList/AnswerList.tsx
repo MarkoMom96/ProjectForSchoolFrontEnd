@@ -9,7 +9,6 @@ import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 interface AnswerListProperties {
   match:{
     params: {
-      id: number
       tId: number
       qId: number
       aId: number
@@ -107,7 +106,6 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
       <Container className="borderLR px-0">
         <SpecificMainMenu 
         case = {"profesorAnswer"} 
-        id = {this.props.match.params.id} 
         tId = {this.props.match.params.tId} 
         qId = {this.props.match.params.qId} />
         <Card>

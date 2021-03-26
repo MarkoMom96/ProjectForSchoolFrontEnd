@@ -11,7 +11,6 @@ interface LoginPageState{
   role: "student" | "profesor"
   errorMessage: string
   isLoggedIn: boolean
-  userId: number | undefined
 }
 
 export class Login extends React.Component {
@@ -27,7 +26,6 @@ export class Login extends React.Component {
       role: "student",
       errorMessage: "",
       isLoggedIn: false,
-      userId: undefined
     }
   };
 
@@ -61,7 +59,7 @@ export class Login extends React.Component {
           return;
         }
         
-        this.setUserId(res.data.id);
+        
        
         
         saveToken(this.state.role, res.data.token);
@@ -75,15 +73,6 @@ export class Login extends React.Component {
  
     }) 
   }
-
-  private setUserId(id: number){
-    const newState = Object.assign(this.state, { 
-      userId: id
-    })
-    
-    this.setState(newState);
-    
-  } 
 
    private formInputChangeHandler(event: React.ChangeEvent<HTMLInputElement>){
     const newState = Object.assign(this.state, { 
@@ -109,9 +98,8 @@ export class Login extends React.Component {
   render() {
      if(this.state.isLoggedIn === true) {
       const role = this.state.role;
-      const userId = this.state.userId;
       return (
-        <Redirect to = {`api/${role}/${userId}/moji_testovi`}></Redirect> 
+        <Redirect to = {`api/${role}/moji_testovi`}></Redirect> 
         //<Alert variant = "info"> {`api/${role}/${userId}/moji_testovi`}</Alert>
         
       )

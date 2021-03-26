@@ -9,7 +9,6 @@ import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 interface FinishedTestsProperties {
   match: {
     params: {
-      id: number
     }
   }
 }
@@ -78,7 +77,7 @@ export default class FinishedTests extends React.Component<FinishedTestsProperti
     }
     return(
       <Container className = "borderLR px-0" >
-        <SpecificMainMenu case= {"student"} id= {this.props.match.params.id}/>
+        <SpecificMainMenu case= {"student"}/>
         <Row noGutters>
             <Col md={{ span: 6}}>
               <Button 

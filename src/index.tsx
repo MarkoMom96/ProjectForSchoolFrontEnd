@@ -30,17 +30,17 @@ ReactDOM.render(
     <HashRouter>
       <Switch className = "p-0">
         <Route exact path = "/" component = { Login }/>
-        <Route exact path = "/api/profesor/:id/moji_testovi" component = { TestList }/>
-        <Route exact path = "/api/profesor/:id/registracija_studenta" component = { StudentRegistration }/>
-        <Route exact path = "/api/profesor/:id/novi_test" component = { NewTest }/>
-        <Route exact path = "/api/profesor/:id/test/:tId/izmeni" component = { EditTest }/>
-        <Route exact path = "/api/profesor/:id/test/:tId" component = { QuestionList }/>
-        <Route exact path = "/api/profesor/:id/test/:tId/novo_pitanje" component = { NewQuestion }/>
-        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/izmeni" component = { EditQuestion }/>
-        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/novi_odgovor" component = { NewAnswer }/>
-        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/" component = { AnswerList }/>
-        <Route exact path = "/api/profesor/:id/test/:tId/pitanje/:qId/odgovor/:aId/izmeni" component = { EditAnswer }/>
-        <Route exact path = "/api/student/:id/moji_testovi/" component = { FinishedTests }/>
+        <Route exact path = "/api/profesor/moji_testovi" component = { TestList }/>
+        <Route exact path = "/api/profesor/registracija_studenta" component = { StudentRegistration }/>
+        <Route exact path = "/api/profesor/novi_test" component = { NewTest }/>
+        <Route exact path = "/api/profesor/test/:tId/izmeni" component = { EditTest }/>
+        <Route exact path = "/api/profesor/test/:tId" component = { QuestionList }/>
+        <Route exact path = "/api/profesor/test/:tId/novo_pitanje" component = { NewQuestion }/>
+        <Route exact path = "/api/profesor/test/:tId/pitanje/:qId/izmeni" component = { EditQuestion }/>
+        <Route exact path = "/api/profesor/test/:tId/pitanje/:qId/novi_odgovor" component = { NewAnswer }/>
+        <Route exact path = "/api/profesor/test/:tId/pitanje/:qId/" component = { AnswerList }/>
+        <Route exact path = "/api/profesor/test/:tId/pitanje/:qId/odgovor/:aId/izmeni" component = { EditAnswer }/>
+        <Route exact path = "/api/student/moji_testovi/" component = { FinishedTests }/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

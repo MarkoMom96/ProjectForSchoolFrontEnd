@@ -89,7 +89,7 @@ export class StudentRegistration extends React.Component<StudentRegistrationProp
     }
     return (
       <Container className=" px-0">
-        <SpecificMainMenu case= {"profesor"} id= {this.props.match.params.id} />
+        <SpecificMainMenu case= {"profesor"} />
         <p className = "text-center lead">Registracija studenta</p>
         <Col md = {{ span:6, offset: 3} } >
           <Form className = "px-lg-5">
