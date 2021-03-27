@@ -33,7 +33,7 @@ export default class SpecificMainMenu extends React.Component<SpecificMainMenuPr
   setMenuItemsStudent(){
     return[
       new MainMenuItem("Moji testovi",`/api/student/moji_testovi`),
-      new MainMenuItem("Aktivni testovi",`/api/student/aktivni testovi`),
+      new MainMenuItem("Aktivni testovi",`/api/student/aktivni_testovi`),
     ]
   }
   setMenuItemsProfesor(){

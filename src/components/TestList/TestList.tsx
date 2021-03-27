@@ -71,6 +71,7 @@ export class TestList extends React.Component<TestListProperties> {
         professorId: item.professorId,
         testName: item.testName,
         duration: item.duration,
+        maxScore: item.maxScore,
         isActive: item.isActive
       }
     });
@@ -163,6 +164,7 @@ export class TestList extends React.Component<TestListProperties> {
           <Row noGutters>
             <Col xs="auto">
               <p className="testInfo">Vreme trajanja: {test.duration} </p>
+              <p className="testInfo">Max. broj poena: {test.maxScore} </p>
             </Col>
             <Col>
               <ButtonGroup className="float-right">

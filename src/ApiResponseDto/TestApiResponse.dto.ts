@@ -3,5 +3,6 @@ export interface TestApiResponseDto {
 	professorId: number;
 	testName: string;
 	duration: number;
+	maxScore: number;
 	isActive: boolean;
 }

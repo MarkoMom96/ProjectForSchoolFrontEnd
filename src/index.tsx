@@ -22,6 +22,7 @@ import EditAnswer from './components/EditAnswer/EditAnswer';
 import FinishedTests from './components/FinishedTests/FinishedTests';
 import  NewQuestion  from './components/NewQuestion/NewQuestion';
 import NewAnswer from './components/NewAnswer/NewAnswer';
+import ActiveTests from './components/ActiveTests/ActiveTests';
 
 
 ReactDOM.render(
@@ -41,6 +42,8 @@ ReactDOM.render(
         <Route exact path = "/api/profesor/test/:tId/pitanje/:qId/" component = { AnswerList }/>
         <Route exact path = "/api/profesor/test/:tId/pitanje/:qId/odgovor/:aId/izmeni" component = { EditAnswer }/>
         <Route exact path = "/api/student/moji_testovi/" component = { FinishedTests }/>
+        <Route exact path = "/api/student/aktivni_testovi/" component = { ActiveTests }/>
+
       </Switch>
     </HashRouter>
   </React.StrictMode>,

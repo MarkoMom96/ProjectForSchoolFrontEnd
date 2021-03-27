@@ -6,12 +6,8 @@ import { FinishedTestApiResponseDto } from '../../ApiResponseDto/FinishedTestApi
 import FinishedTestType from '../../types/FinishedTestType'
 import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 
-interface FinishedTestsProperties {
-  match: {
-    params: {
-    }
-  }
-}
+
+
 interface FinishedTestsState {
   passedTests?: FinishedTestType[]
   failedTests?: FinishedTestType[]
@@ -21,10 +17,10 @@ interface FinishedTestsState {
 
 }
 
-export default class FinishedTests extends React.Component<FinishedTestsProperties> {
+export default class FinishedTests extends React.Component {
   state: FinishedTestsState
 
-  constructor(props: FinishedTestsProperties) {
+  constructor(props: {} | Readonly<{}>) {
     super(props)
 
     this.state = {
@@ -37,9 +33,9 @@ export default class FinishedTests extends React.Component<FinishedTestsProperti
   }
 
   getFinishedTests() {
-    api(`api/finished-test`,"get",{},"student")
+    api(`api/finished-test/testsForStudent`,"get",{},"student")
     .then((res: ApiResponse) => {
-      console.log(res.data)
+      console.log("res.data: ", res.data)
       if(res.status === "login"){
         this.setMessage("login")
         return
@@ -48,10 +44,13 @@ export default class FinishedTests extends React.Component<FinishedTestsProperti
         this.setMessage("Doslo je do greske!")
         return
       }
+      if(res.data.length === 0) {
+        this.setMessage("Nije pronadjen nijedan test");
+        return;
+      }
 
       this.setMessage("");
       this.putDataInState(res.data);
-
 
     })
   }
@@ -70,6 +69,7 @@ export default class FinishedTests extends React.Component<FinishedTestsProperti
 
       return (
         <Container>
+          <SpecificMainMenu case= {"student"}/>
           <Alert className = "mt-3" variant= {variant}>{this.state.message}</Alert>  
         </Container>    
       )
@@ -123,10 +123,11 @@ export default class FinishedTests extends React.Component<FinishedTestsProperti
   }
 
   putDataInState(data: FinishedTestApiResponseDto[]) {
+    console.log("dataForLoop: ", data)
     let passedTests: FinishedTestType[] = [];
     let failedTests: FinishedTestType[] = []
-    for(const test of data){
-      test.isPassed === 1 ? passedTests.push(test): failedTests.push(test)
+    for(let i = data.length-1; i >= 0; i--){
+      data[i].isPassed === 1 ? passedTests.push(data[i]): failedTests.push(data[i]);
     }
     this.setState({
       passedTests: passedTests,

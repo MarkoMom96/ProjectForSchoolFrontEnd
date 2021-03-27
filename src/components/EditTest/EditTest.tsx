@@ -16,6 +16,7 @@ interface EditTestProperties {
 interface EditTestState{
   testName: string
   duration: number
+  maxScore: number
   message: string
 }
 
@@ -29,6 +30,7 @@ export default class EditTest extends Component<EditTestProperties> {
     this.state = {
       testName: "",
       duration: 0,
+      maxScore: 0,
       message: ""
     }
   }
@@ -46,7 +48,8 @@ export default class EditTest extends Component<EditTestProperties> {
       "patch",
       {
         testName: this.state.testName,
-        duration: this.state.duration
+        duration: this.state.duration,
+        maxScore: this.state.maxScore
       },
       "profesor")
       .then((res) => {
@@ -87,6 +90,14 @@ export default class EditTest extends Component<EditTestProperties> {
                 id = "duration" 
                 type = "number"
                 value = {this.state.duration}
+                onChange = {event=>{this.formInputChangeHandler(event as any)}}/>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Maksimalni broj poena</Form.Label>
+              <Form.Control
+                id = "maxScore" 
+                type = "number"
+                value = {this.state.maxScore}
                 onChange = {event=>{this.formInputChangeHandler(event as any)}}/>
             </Form.Group>
             <ButtonGroup>

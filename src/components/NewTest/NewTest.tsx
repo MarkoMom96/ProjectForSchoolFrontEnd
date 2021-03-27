@@ -4,28 +4,24 @@ import { Redirect } from "react-router-dom";
 import api from "../../api/api";
 import SpecificMainMenu from "../SpecificMainMenu/SpecificMainMenu";
 
-interface NewTestProps{
-  match: {
-    params: {
-      
-    }
-  }
-}
+
 interface NewTestState {
   testName: string
   duration: number
+  maxScore: number
   message: string
   
 }
 
-export class NewTest extends React.Component<NewTestProps> {
+export class NewTest extends React.Component {
   state: NewTestState;
-  constructor(props: NewTestProps) {
+  constructor(props: {} | Readonly<{}>) {
     super(props)
 
     this.state = {
       testName: "",
       duration: 30,
+      maxScore: 30,
       message: "",
       
     }
@@ -37,6 +33,7 @@ export class NewTest extends React.Component<NewTestProps> {
     const data = {
       testName:this.state.testName,
       duration: this.state.duration,
+      maxScore: this.state.maxScore
     }
     console.log(data);
     api("api/test", "post", data, "profesor")
@@ -85,6 +82,16 @@ export class NewTest extends React.Component<NewTestProps> {
                 min = "1"
                 step = "1"
                 value = {this.state.duration}
+                onChange = {event=>{this.formInputChangeHandler(event as any)}}/>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Maksimalni broj poena</Form.Label>
+              <Form.Control
+                id = "maxScore" 
+                type = "number"
+                min = "1"
+                step = "1"
+                value = {this.state.maxScore}
                 onChange = {event=>{this.formInputChangeHandler(event as any)}}/>
             </Form.Group>
             <Button 
