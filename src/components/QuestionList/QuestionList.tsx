@@ -66,7 +66,8 @@ export class QuestionList extends React.Component<QuestionListProperties> {
       return {
         id: item.questionId,
         testId: item.testId,
-        name: item.questionName,
+        questionName: item.questionName,
+        numberOfCorrectAnswers: item.numberOfCorrectAnswers
       }
     });
       this.setState(Object.assign(this.state, {
@@ -87,7 +88,7 @@ export class QuestionList extends React.Component<QuestionListProperties> {
      
         <ListGroup.Item key={question.id} className="p-1 pl-2">
           <Row noGutters>
-            <p className="testName">{question.name}</p>
+            <p className="testName">{question.questionName}</p>
           </Row>
           <Row noGutters>
             <Col>

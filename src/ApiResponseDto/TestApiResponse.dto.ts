@@ -1,3 +1,5 @@
+import QuestionType from "../types/QuestionType";
+
 export interface TestApiResponseDto {
 	testId: number;
 	professorId: number;
@@ -5,4 +7,5 @@ export interface TestApiResponseDto {
 	duration: number;
 	maxScore: number;
 	isActive: boolean;
+	questions?: QuestionType[];
 }

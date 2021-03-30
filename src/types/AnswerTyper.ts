@@ -1,6 +1,6 @@
 export default class AnswerType {
-	id?: number;
+	questionAnswerId?: number;
 	questionId?: number;
-	name?: string;
+	answerName?: string;
 	isCorrectAnswer?: boolean;
 }

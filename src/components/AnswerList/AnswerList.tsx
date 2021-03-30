@@ -47,7 +47,7 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
             this.setMessage("Nema ponudjenih odgovora za ovaj test");
             return;
           } 
-          const correctAns = this.countCorrectAnswers(res.data.questionAnswers);
+          const correctAns = res.data.numberOfCorrectAnswers
           this.setState(Object.assign(this.state,{
             NumberOfCorrentAnswers: correctAns,
             questionName: res.data.questionName
@@ -62,22 +62,14 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
     })
   }
 
-  countCorrectAnswers(data: AnswerApiResponseDto[]){
-    let correctAnswers = 0;
-    for (const answer of data) {
-      if(answer.isCorrectAnswer)
-        correctAnswers++
-    }
-    return correctAnswers;
-      
-    }
+ 
   
   putQuestinsInState(data: AnswerApiResponseDto[]) {
     const answersForState: AnswerType[] = data.map(item=>{
       return {
-        id: item.questionAnswerId,
+        questionAnswerId: item.questionAnswerId,
 	      questionId: item.questionId,
-	      name: item.answerName,
+	      answerName: item.answerName,
 	      isCorrectAnswer: item.isCorrectAnswer
       }
     });
@@ -123,9 +115,9 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
   showAnswersForQuestion =  (answer: AnswerType) => {
     return (
       
-        <ListGroup.Item key={answer.id} className="p-1 pl-2">
+        <ListGroup.Item key={answer.questionAnswerId} className="p-1 pl-2">
           <Row noGutters>
-            <p className="testName">{answer.name} {answer.isCorrectAnswer ? ` (correct answer)`: null}</p>
+            <p className="testName">{answer.answerName} {answer.isCorrectAnswer ? ` (correct answer)`: null}</p>
           </Row>
           <Row noGutters>
             <Col>
@@ -133,13 +125,7 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
                 <Button 
                   className=" p-1 mt-2">
                     <Link
-                      to = {{
-                        pathname: `odgovor/${answer.id}/izmeni`,
-                        state: {
-                          correctAnswer:answer.isCorrectAnswer,
-                          name: answer.name
-                        }
-                      }}
+                      to = {`odgovor/${answer.questionAnswerId}/izmeni` }
                       className= "LinkStyle" >Izmeni
                     </Link>
                   </Button>
