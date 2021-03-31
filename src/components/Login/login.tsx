@@ -1,7 +1,7 @@
 import React from "react";
 import "./Login.css";
 import { Alert, Button, Col, Container, Form,} from "react-bootstrap";
-import api, { ApiResponse, saveToken, saveRefreshToken, saveRole, saveUserInfo } from "../../api/api";
+import api, { ApiResponse, saveToken, saveRefreshToken, saveUserInfo } from "../../api/api";
 import { Redirect } from "react-router-dom";
 
 
@@ -55,20 +55,17 @@ export class Login extends React.Component {
             case -3001: this.errorMessageChange('This user does not exist!'); break;
             case -3002: this.errorMessageChange('Bad password!'); break;
         }
-          
           return;
         }
-        
-        
-       
-        
-        saveToken(this.state.role, res.data.token);
-        saveRefreshToken(this.state.role, res.data.refreshToken);
-        saveRole(this.state.role);
-        saveUserInfo(res.data.userInfo);
+        if(res.status === "ok") {
+          saveToken(this.state.role, res.data.token);
+          saveRefreshToken(this.state.role, res.data.refreshToken);
+          saveUserInfo(res.data.userInfo);
+  
+          this.setLoginState(true);
+        }
 
-        console.log(res.data.userInfo);
-        this.setLoginState(true);
+       
 
  
     }) 
@@ -100,7 +97,6 @@ export class Login extends React.Component {
       const role = this.state.role;
       return (
         <Redirect to = {`api/${role}/moji_testovi`}></Redirect> 
-        //<Alert variant = "info"> {`api/${role}/${userId}/moji_testovi`}</Alert>
         
       )
     } 

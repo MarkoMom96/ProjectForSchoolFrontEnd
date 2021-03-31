@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Alert, Button, ButtonGroup, Card, Container, FormCheck, FormGroup, ListGroup } from 'react-bootstrap'
 import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import api, { ApiResponse } from '../../api/api'
+import { FinishedTestApiResponseDto } from '../../ApiResponseDto/FinishedTestApiResponseDto'
 import { TestApiResponseDto } from '../../ApiResponseDto/TestApiResponse.dto'
 import AnswerType from '../../types/AnswerTyper'
+import FinishedTestType from '../../types/FinishedTestType'
 import GivenAsnwerType from '../../types/GivenAnswerType'
 import QuestionType from '../../types/QuestionType'
 import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
@@ -24,8 +26,8 @@ interface TestInProgressState {
   questions: QuestionType[]
   currentQuestionIndex: number
   givenAnswers: any[]
-  currentAnswerId: (string | null)[]
-  renderData: boolean
+  currentAnswerId: (number | null)[]
+  testResult?: FinishedTestType
 }
 
 export default class TestInProgress extends React.Component<TestInProgressProperties> {
@@ -42,8 +44,7 @@ export default class TestInProgress extends React.Component<TestInProgressProper
       questions: [],
       currentQuestionIndex: 0,
       givenAnswers: [],
-      currentAnswerId: [],
-      renderData: false
+      currentAnswerId: []
     } 
   }
 
@@ -70,10 +71,16 @@ export default class TestInProgress extends React.Component<TestInProgressProper
 
   endTest = () => {
     this.nextQuestion()
-    const data = this.state.givenAnswers
+    const data = {
+      answerIds: this.state.givenAnswers
+    }
    api(`api/test/finishTest/${this.props.match.params.tId}`,"post", data,"student")
    .then((res:ApiResponse) => {
      console.log(res)
+     this.setState({
+      testResult: res.data
+     })
+     this.setMessage("score")
    })
   }
   putDataInState(data: TestApiResponseDto) {
@@ -92,6 +99,21 @@ export default class TestInProgress extends React.Component<TestInProgressProper
  
 
   render() {
+
+    if(this.state.message === "score"){
+      return(
+        <Container>
+
+        <Alert  variant = "info">
+          {this.state.testResult?.test?.testName}
+          {this.state.testResult?.isPassed === 1 ? <p>Polozili ste test</p> : <p>Niste polozili test</p>}
+          <p>Broj osvojenih poena {this.state.testResult?.score}</p>
+          <br/>
+          <Link to = "/api/student/moji_testovi">Pregled testova</Link>
+        </Alert>
+        </Container>
+      )
+    }
     
     if(this.state.message === "login") {
       return <Redirect to = "#"></Redirect>
@@ -110,12 +132,13 @@ export default class TestInProgress extends React.Component<TestInProgressProper
       )
         
     }
+
+    
     const num = this.state.currentQuestionIndex
     
     let showButton = true;
 
     if(num === this.state.questions.length-1) showButton = false;
-    if(this.state.renderData) {
 
       return (
         
@@ -146,8 +169,8 @@ export default class TestInProgress extends React.Component<TestInProgressProper
         </Container>
        
       );
-    }
-    return null
+    
+   
   }
   showAnswersRadio =  (answer: AnswerType) => {
     return (
@@ -215,7 +238,8 @@ export default class TestInProgress extends React.Component<TestInProgressProper
 
   checkBoxClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = event.target.value
-    if(!this.state.currentAnswerId.includes(id)){
+
+    if(!this.state.currentAnswerId.includes(+id)){
       this.setState(Object.assign(this.state,{
         currentAnswerId: [...this.state.currentAnswerId, +id]
       }))
@@ -228,7 +252,7 @@ export default class TestInProgress extends React.Component<TestInProgressProper
         currentAnswerId: []
       }))
     }
-    const index = this.state.currentAnswerId.indexOf(id)
+    const index = this.state.currentAnswerId.indexOf(+id)
     this.state.currentAnswerId.splice(index, 1);
     console.log(this.state)
 

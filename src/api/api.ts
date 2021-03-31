@@ -8,15 +8,20 @@ export interface ApiResponse {
 export function saveToken(role: string, token: string) {
 	localStorage.setItem(`api_token_${role}`, token);
 }
+export function removeData() {
+	localStorage.removeItem("api_token_student");
+	localStorage.removeItem("api_token_profesor");
+
+	localStorage.removeItem("api_refresh_token_student");
+	localStorage.removeItem("api_refresh_token_profesor");
+
+	localStorage.removeItem("forename");
+	localStorage.removeItem("surname");
+}
 export function saveRefreshToken(role: string, token: string) {
 	localStorage.setItem(`api_refresh_token_${role}`, token);
 }
-export function getRole(): string | null {
-	return localStorage.getItem("role");
-}
-export function saveRole(role: string) {
-	return localStorage.setItem("role", role);
-}
+
 export function saveUserInfo(info: { forename: string; surname: string }) {
 	localStorage.setItem("forename", info.forename);
 	localStorage.setItem("surname", info.surname);

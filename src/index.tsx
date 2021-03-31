@@ -24,6 +24,7 @@ import  NewQuestion  from './components/NewQuestion/NewQuestion';
 import NewAnswer from './components/NewAnswer/NewAnswer';
 import ActiveTests from './components/ActiveTests/ActiveTests';
 import  TestInProgress  from './components/TestInProgress/TestInProgress';
+import LogOutPage from './components/LogOutPage/LogOutPage';
 
 
 ReactDOM.render(
@@ -45,6 +46,7 @@ ReactDOM.render(
         <Route exact path = "/api/student/moji_testovi/" component = { FinishedTests }/>
         <Route exact path = "/api/student/aktivni_testovi/" component = { ActiveTests }/>
         <Route exact path = "/api/student/test/:tId" component = { TestInProgress }/>
+        <Route exact path = "/logout" component = { LogOutPage }/>
 
       </Switch>
     </HashRouter>

@@ -8,7 +8,7 @@ export class MainMenuItem{
     linkName: string = "";
     linkHref: string = "#";
 
-    constructor(linkName: string, linkHref: string) {
+constructor(linkName: string, linkHref: string) {
       this.linkName = linkName;
       this.linkHref = linkHref;
     }
@@ -54,8 +54,8 @@ export class MainMenu extends React.Component<MainMenuProperties> {
           <Nav variant = "tabs">
             <HashRouter>          
               { this.state.items.map(this.addNavLink) }           
+              <Link className = "nav-link" to ="/logout">Odjava</Link> 
             </HashRouter>
-            <Nav.Link href="/">Odjava</Nav.Link> 
           </Nav>        
         </Navbar.Collapse>
         <Navbar.Text className = "ml-auto pr-2" >Korisnik: { `${info.forename} ${info.surname}` }</Navbar.Text>
