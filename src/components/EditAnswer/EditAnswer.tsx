@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert, Button, ButtonGroup, Col, Container, Form, FormCheck } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
+import { AnswerApiResponseDto } from '../../ApiResponseDto/AnswerApiResponse.dto';
 
 interface EditAnswerProperties {
   match:{
@@ -69,6 +70,32 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
     })
   }
 
+  getAnswerInfo() {
+    api(`api/question-answer/${this.props.match.params.aId}`, "get", {} , "profesor")
+    .then((res:ApiResponse) => {
+      console.log(res);
+      if(res.status === "login") {
+        this.setMessage("login")
+        return;
+      }
+      if(res.status === "error") {
+        this.setMessage("Doslo je do greske")
+        return
+      }
+      this.putDataInState(res.data)
+
+    })
+  }
+  putDataInState(data: AnswerApiResponseDto){
+    let correctAnswer = 0
+    
+    this.setState({
+      answerName: data.answerName,
+      isCorrectAnswer: data.isCorrectAnswer
+    })
+    
+  }
+
   setMessage(message: string) {
     this.setState(Object.assign(this.state,{
       message: message
@@ -76,6 +103,7 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
   }
 
   render() {
+    const st = "checked"
     return (
       <Container>
       <p className = "text-center lead" >Izmena odgovora</p>
@@ -93,8 +121,10 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
          <FormCheck className = "p-0 ml-0">
            <FormCheck.Input
             style = {{width:"20px", height: "20px"}} 
-           className = "ml-2"
-           onChange = {this.checkBoxHandler} >
+            className = "ml-2"
+            onChange = {this.checkBoxHandler}
+            >
+            
 
            </FormCheck.Input>
            <Form.Check.Label className = "ml-5">Tacan Odgovor</Form.Check.Label>
@@ -122,7 +152,14 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
     )
 
   }
-  
+  componentDidMount() {
+    this.getAnswerInfo()
+  }
+  componentDidUpdate(oldProps: EditAnswerProperties){
+    if(oldProps.match.params.aId !== this.props.match.params.aId) {
+      this.getAnswerInfo()
+    }
+  }
   
  
   

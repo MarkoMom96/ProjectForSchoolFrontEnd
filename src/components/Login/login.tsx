@@ -46,14 +46,14 @@ export class Login extends React.Component {
     .then((res: ApiResponse) => {
       console.log(res);
       if(res.status === "error") {
-        this.errorMessageChange("Could you try that again please")
+        this.errorMessageChange("Probajte ponovo")
         return;
       }
         
         if(res.data.statusCode !== undefined){
           switch (res.data.statusCode) {
-            case -3001: this.errorMessageChange('This user does not exist!'); break;
-            case -3002: this.errorMessageChange('Bad password!'); break;
+            case -3001: this.errorMessageChange('Ovaj korisnik ne posoji'); break;
+            case -3002: this.errorMessageChange('Pogresan password'); break;
         }
           return;
         }

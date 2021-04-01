@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Alert, Button, ButtonGroup, Col, Container, Form} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import api from '../../api/api'
+import api, { ApiResponse } from '../../api/api'
+import { TestApiResponseDto } from '../../ApiResponseDto/TestApiResponse.dto'
 import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 
 interface EditTestProperties {
@@ -63,6 +64,30 @@ export default class EditTest extends Component<EditTestProperties> {
       })       
   
   }
+  getTestInfo() {
+    api(`api/test/${this.props.match.params.tId}`, "get", {} , "profesor")
+    .then((res:ApiResponse) => {
+      console.log(res);
+      if(res.status === "login") {
+        this.setMessage("login")
+        return;
+      }
+      if(res.status === "error") {
+        this.setMessage("Doslo je do greske")
+        return
+      }
+      this.putDataInState(res.data)
+
+    })
+  }
+  putDataInState(data: TestApiResponseDto){
+    this.setState({
+      testName: data.testName,
+      duration: data.duration,
+      maxScore: data.maxScore
+    })
+    
+  }
   setMessage(message: string) {
     this.setState(Object.assign(this.state,{
       message: message
@@ -120,6 +145,15 @@ export default class EditTest extends Component<EditTestProperties> {
         </Col>
       </Container>
     )
+  }
+
+  componentDidMount() {
+    this.getTestInfo()
+  }
+  componentDidUpdate(oldProps: EditTestProperties){
+    if(oldProps.match.params.tId !== this.props.match.params.tId) {
+      this.getTestInfo()
+    }
   }
  
 }

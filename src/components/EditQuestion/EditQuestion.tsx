@@ -1,7 +1,8 @@
 import React from 'react'
 import { Alert, Button, ButtonGroup, Col, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import api from '../../api/api';
+import api, { ApiResponse } from '../../api/api';
+import { QuestionApiResponseDto } from '../../ApiResponseDto/QuestionApiResponse.dto';
 import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu';
 
 interface EditQuestionProperties{
@@ -51,6 +52,29 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
 
       })       
   
+  }
+
+  getQuestionInfo() {
+    api(`api/question/${this.props.match.params.qId}`, "get", {} , "profesor")
+    .then((res:ApiResponse) => {
+      console.log(res);
+      if(res.status === "login") {
+        this.setMessage("login")
+        return;
+      }
+      if(res.status === "error") {
+        this.setMessage("Doslo je do greske")
+        return
+      }
+      this.putDataInState(res.data)
+
+    })
+  }
+  putDataInState(data: QuestionApiResponseDto){
+    this.setState({
+      questionName: data.questionName
+    })
+    
   }
 
   formInputChangeHandler(event: React.ChangeEvent<HTMLInputElement>){
@@ -104,6 +128,14 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
 
 
     )
+  }
+  componentDidMount() {
+    this.getQuestionInfo()
+  }
+  componentDidUpdate(oldProps: EditQuestionProperties){
+    if(oldProps.match.params.qId !== this.props.match.params.qId) {
+      this.getQuestionInfo()
+    }
   }
 
 
