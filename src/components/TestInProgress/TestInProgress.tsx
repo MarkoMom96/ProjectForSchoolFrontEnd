@@ -74,7 +74,7 @@ export default class TestInProgress extends React.Component<TestInProgressProper
     const data = {
       answerIds: this.state.givenAnswers
     }
-   api(`api/test/finishTest/${this.props.match.params.tId}`,"post", data,"student")
+   api(`api/finished-test/finishTest/${this.props.match.params.tId}`,"post", data,"student")
    .then((res:ApiResponse) => {
      console.log(res)
      this.setState({
