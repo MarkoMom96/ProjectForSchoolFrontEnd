@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Alert, Button, ButtonGroup, Card, Container, FormCheck, FormGroup, ListGroup } from 'react-bootstrap'
 import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel'
 import { Link, Redirect } from 'react-router-dom'
 import api, { ApiResponse } from '../../api/api'
-import { FinishedTestApiResponseDto } from '../../ApiResponseDto/FinishedTestApiResponseDto'
 import { TestApiResponseDto } from '../../ApiResponseDto/TestApiResponse.dto'
 import AnswerType from '../../types/AnswerTyper'
 import FinishedTestType from '../../types/FinishedTestType'
-import GivenAsnwerType from '../../types/GivenAnswerType'
 import QuestionType from '../../types/QuestionType'
 import SpecificMainMenu from '../SpecificMainMenu/SpecificMainMenu'
 
@@ -127,7 +125,7 @@ export default class TestInProgress extends React.Component<TestInProgressProper
       return (
         <Container>
           <SpecificMainMenu case= {"student"}/>
-          <Alert variant = "danger">{this.state.message}</Alert>
+          <Alert variant = {variant}>{this.state.message}</Alert>
         </Container>    
       )
         

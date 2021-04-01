@@ -103,7 +103,7 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
   }
 
   render() {
-    const st = "checked"
+    
     return (
       <Container>
       <p className = "text-center lead" >Izmena odgovora</p>
