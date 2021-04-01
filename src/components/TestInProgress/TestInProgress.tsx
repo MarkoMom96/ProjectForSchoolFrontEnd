@@ -49,7 +49,6 @@ export default class TestInProgress extends React.Component<TestInProgressProper
    getTest(){
     api(`api/test/startTest/${this.props.match.params.tId}`, "get", {}, "student")
     .then((res: ApiResponse) => {
-      console.log(res)
       if(res.status === "error") {
         this.setMessage("Doslo je do greske!")
         return;
@@ -74,7 +73,6 @@ export default class TestInProgress extends React.Component<TestInProgressProper
     }
    api(`api/finished-test/finishTest/${this.props.match.params.tId}`,"post", data,"student")
    .then((res:ApiResponse) => {
-     console.log(res)
      this.setState({
       testResult: res.data
      })
@@ -90,7 +88,6 @@ export default class TestInProgress extends React.Component<TestInProgressProper
       questions: data.questions,
       renderData: true
     }))
-    console.log(this.state)
     
   }
 
@@ -216,13 +213,11 @@ export default class TestInProgress extends React.Component<TestInProgressProper
         currentAnswerId: []
 
       }))
-      console.log(this.state)
       return
     }
     this.setState(Object.assign(this.state, {
       currentQuestionIndex: this.state.currentQuestionIndex + 1,
     }))
-    console.log(this.state)
 
   }
 
@@ -231,7 +226,6 @@ export default class TestInProgress extends React.Component<TestInProgressProper
     this.setState(Object.assign(this.state,{
       currentAnswerId: +[event.target.value]
     }))
-    console.log(this.state)
   }
 
   checkBoxClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,7 +235,6 @@ export default class TestInProgress extends React.Component<TestInProgressProper
       this.setState(Object.assign(this.state,{
         currentAnswerId: [...this.state.currentAnswerId, +id]
       }))
-      console.log(this.state)
       return
     }
     
@@ -252,7 +245,6 @@ export default class TestInProgress extends React.Component<TestInProgressProper
     }
     const index = this.state.currentAnswerId.indexOf(+id)
     this.state.currentAnswerId.splice(index, 1);
-    console.log(this.state)
 
   }
 

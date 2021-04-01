@@ -42,9 +42,7 @@ export class TestList extends React.Component<TestListProperties> {
   getProfessorTests() {
     api(`api/test/profesorTests`,"get", {}, "profesor")
     .then((res:ApiResponse)=>{
-      console.log(res)
       if(res.status === 'ok'){
-        console.log("res: ", res)
           if(res.data.length === 0 || res.data.statusCode === -8003) {
             this.setMessage("Nemate nijedan test");
             return;
@@ -64,7 +62,6 @@ export class TestList extends React.Component<TestListProperties> {
   }
 
   private putDataInState(data: TestApiResponseDto[]){
-    console.log("dataForState: ", data);
     const testsForState: TestType[] = data?.map(item =>{
       return {
         id: item.testId,
@@ -97,7 +94,6 @@ export class TestList extends React.Component<TestListProperties> {
           },
           "profesor")
           .then((res) => {
-            console.log(res)
             if(res.status === "error") {
               this.setMessage("Doslo je do greske")
               return;
@@ -115,7 +111,6 @@ export class TestList extends React.Component<TestListProperties> {
       },
       "profesor")
       .then((res) => {
-        console.log(res)
         if(res.status === "error") {
           this.setMessage("Doslo je do greske")
           return;

@@ -40,7 +40,6 @@ export class QuestionList extends React.Component<QuestionListProperties> {
     api(`api/test/${this.props.match.params.tId}`,"get", {}, "profesor")
     .then((res:ApiResponse)=>{
       if(res.status === 'ok'){
-        console.log("res: ", res.data)
           if(res.data.length === 0) {
             this.setMessage("Nema pitanja za test");
             return;
@@ -51,7 +50,6 @@ export class QuestionList extends React.Component<QuestionListProperties> {
             testName: res.data.testName,
             numberOfQuestions: res.data.questions.length
           }))
-          console.log(this.state);
           return;
           
         

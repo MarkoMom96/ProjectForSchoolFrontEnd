@@ -34,7 +34,6 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
   }
 
   modifyQuestion = () => {
-    console.log(this.props.match.params)
     api(
       `api/question/${this.props.match.params.qId}`,
       "patch",
@@ -43,7 +42,7 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
       },
       "profesor")
       .then((res) => {
-        console.log(res)
+       
         if(res.status === "error") {
           this.setMessage("Doslo je do greske")
           return;
@@ -57,7 +56,7 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
   getQuestionInfo() {
     api(`api/question/${this.props.match.params.qId}`, "get", {} , "profesor")
     .then((res:ApiResponse) => {
-      console.log(res);
+    
       if(res.status === "login") {
         this.setMessage("login")
         return;
@@ -81,7 +80,7 @@ export default class EditQuestion extends React.Component<EditQuestionProperties
     this.setState(Object.assign(this.state,{
       [event.target.id]: event.target.value
     }))
-    console.log(this.state)
+   
   }
 
   setMessage(message: string) {

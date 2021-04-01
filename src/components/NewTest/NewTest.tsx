@@ -35,7 +35,6 @@ export class NewTest extends React.Component {
       duration: this.state.duration,
       maxScore: this.state.maxScore
     }
-    console.log(data);
     api("api/test", "post", data, "profesor")
     .then((res)=>{
       if(res.status === "error") {
@@ -113,7 +112,6 @@ export class NewTest extends React.Component {
       [event.target.id ]: event.target.value
     })
     this.setState(newState);
-    console.log(newState);
   }
 }
 

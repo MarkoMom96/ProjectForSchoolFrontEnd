@@ -60,14 +60,13 @@ export default function api(
 				Authorization: getToken(role),
 			},
 		};
-		console.log("Token: ", getToken(role));
+
 		axios(requestData)
 			.then(res => responseHandler(res, resolve))
 			.catch(async err => {
-				console.log("err.res.status = ", err.response.status);
 				if (err.response.status === 401) {
 					const newToken = await refreshToken(role);
-					console.log("newToken: ", newToken);
+
 					if (!newToken) {
 						const response: ApiResponse = {
 							status: "login",
@@ -98,7 +97,7 @@ export default function api(
 				status: "error",
 				data: res.data,
 			};
-			console.log("error: ");
+
 			return resolve(response);
 		}
 
@@ -133,7 +132,6 @@ export default function api(
 				token: string | undefined;
 			};
 		} = await axios(refreshTokenRequestData);
-		console.log("refreshRes: ", refreshTokenResponse);
 		if (!refreshTokenResponse.data.token) return null;
 		return refreshTokenResponse.data.token;
 	}

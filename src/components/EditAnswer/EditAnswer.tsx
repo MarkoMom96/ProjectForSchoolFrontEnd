@@ -39,13 +39,13 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
     this.setState(Object.assign(this.state,{
       [event.target.id]: event.target.value
     }))
-    console.log(this.state)
+   
   }
   checkBoxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState(Object.assign(this.state,{
       isCorrectAnswer: event.target.checked
     }))
-    console.log(this.state)
+  
   }
 
   
@@ -58,7 +58,7 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
     }
     api(`api/question-answer/${this.props.match.params.aId}`,"patch",data,"profesor")
     .then((res: ApiResponse) => {
-       console.log(res);
+     
       
         if(res.status === "error") {
           this.setMessage("Doslo je do greske")
@@ -73,7 +73,7 @@ export default class EditAnswer extends React.Component<EditAnswerProperties> {
   getAnswerInfo() {
     api(`api/question-answer/${this.props.match.params.aId}`, "get", {} , "profesor")
     .then((res:ApiResponse) => {
-      console.log(res);
+     
       if(res.status === "login") {
         this.setMessage("login")
         return;

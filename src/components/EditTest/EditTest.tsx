@@ -40,7 +40,7 @@ export default class EditTest extends Component<EditTestProperties> {
     this.setState(Object.assign(this.state,{
       [event.target.id]: event.target.value
     }))
-    console.log(this.state)
+  
   }
   modifyTest = () => {
     
@@ -54,7 +54,7 @@ export default class EditTest extends Component<EditTestProperties> {
       },
       "profesor")
       .then((res) => {
-        console.log(res)
+       
         if(res.status === "error") {
           this.setMessage("Doslo je do greske")
           return;
@@ -67,7 +67,7 @@ export default class EditTest extends Component<EditTestProperties> {
   getTestInfo() {
     api(`api/test/${this.props.match.params.tId}`, "get", {} , "profesor")
     .then((res:ApiResponse) => {
-      console.log(res);
+     
       if(res.status === "login") {
         this.setMessage("login")
         return;

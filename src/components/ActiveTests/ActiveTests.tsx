@@ -28,7 +28,7 @@ export default class ActiveTests extends React.Component {
  getActiveTests(){
   api("api/test/activeTests","get",{}, "student")
   .then((res: ApiResponse)=>{
-    console.log(res.data)
+   
     if(res.status === "error") {
       this.setMessage("Doslo je do greske!")
       return;
@@ -57,7 +57,7 @@ export default class ActiveTests extends React.Component {
         tests: testsForState
       })
       this.setState(newState);
-      console.log("new State: ", this.state)
+     
 
  }
 

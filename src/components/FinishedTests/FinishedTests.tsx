@@ -35,7 +35,7 @@ export default class FinishedTests extends React.Component {
   getFinishedTests() {
     api(`api/finished-test/testsForStudent`,"get",{},"student")
     .then((res: ApiResponse) => {
-      console.log("res.data: ", res.data)
+    
       if(res.status === "login"){
         this.setMessage("login")
         return
@@ -123,7 +123,7 @@ export default class FinishedTests extends React.Component {
   }
 
   putDataInState(data: FinishedTestApiResponseDto[]) {
-    console.log("dataForLoop: ", data)
+
     let passedTests: FinishedTestType[] = [];
     let failedTests: FinishedTestType[] = []
     for(let i = data.length-1; i >= 0; i--){
@@ -133,7 +133,7 @@ export default class FinishedTests extends React.Component {
       passedTests: passedTests,
       failedTests: failedTests
     })
-    console.log(this.state)
+   
 
   }
 

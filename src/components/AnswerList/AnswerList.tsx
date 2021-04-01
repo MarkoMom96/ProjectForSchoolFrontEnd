@@ -41,7 +41,7 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
   getAnswersForQuestion() {
     api(`api/question/${this.props.match.params.qId}`,"get", {}, "profesor")
     .then((res:ApiResponse)=>{
-      console.log(res.data)
+      
       if(res.status === 'ok'){
            if(res.data.length === 0) {
             this.setMessage("Nema ponudjenih odgovora za ovaj test");
@@ -77,7 +77,7 @@ export default class AnswerList extends React.Component<AnswerListProperties> {
       answers: answersForState
     
     }))
-    console.log("state = ",this.state);
+   
   }
   
   

@@ -44,7 +44,7 @@ export class Login extends React.Component {
       )
       
     .then((res: ApiResponse) => {
-      console.log(res);
+    
       if(res.status === "error") {
         this.errorMessageChange("Probajte ponovo")
         return;
@@ -77,7 +77,7 @@ export class Login extends React.Component {
     })
     
     this.setState(newState);
-    console.log(this.state);
+   
   } 
   private errorMessageChange(message: string) {
     const newState = Object.assign(this.state,{

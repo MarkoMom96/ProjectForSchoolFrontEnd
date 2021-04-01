@@ -56,7 +56,6 @@ export class StudentRegistration extends React.Component<StudentRegistrationProp
       "profesor"
       )
     .then((res: ApiResponse) => {
-     console.log(res);
       if(res.status === "error") {
         this.setMessage("Could you try that again please")
         return;
@@ -147,7 +146,6 @@ export class StudentRegistration extends React.Component<StudentRegistrationProp
     })
     
     this.setState(newState);
-    console.log(this.state);
   }
   private setMessage(message: string) {
     this.setState(Object.assign(this.state,{

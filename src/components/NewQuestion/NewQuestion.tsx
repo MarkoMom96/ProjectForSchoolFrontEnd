@@ -35,10 +35,8 @@ export default class NewQuestion extends React.Component<NewQuestionProps> {
       testId: this.props.match.params.tId,
       questionName:this.state.questionName,
     }
-    console.log(data);
     api("api/question", "post", data, "profesor")
     .then((res)=>{
-      console.log(res);
       if(res.status === "error") {
         this.setMessage("Doslo je do greske!")
         return;
@@ -88,7 +86,6 @@ export default class NewQuestion extends React.Component<NewQuestionProps> {
     this.setState(Object.assign(this.state, { 
       [event.target.id ]: event.target.value
     }));
-    console.log(this.state);
   }
   setMessage(message: string) {
     this.setState(Object.assign(this.state,{

@@ -41,10 +41,9 @@ export default class NewAnswer extends React.Component<NewAnswerProps> {
       isCorrectAnswer: value
 
     }
-    console.log(data);
+  
     api("api/question-answer", "post", data, "profesor")
     .then((res)=>{
-      console.log(res);
       if(res.status === "error") {
         this.setMessage("Doslo je do greske!")
         return;
@@ -105,7 +104,6 @@ export default class NewAnswer extends React.Component<NewAnswerProps> {
     this.setState(Object.assign(this.state, { 
       [event.target.id ]: event.target.value
     }));
-    console.log(this.state);
   }
   setMessage(message: string) {
     this.setState(Object.assign(this.state,{
@@ -116,7 +114,6 @@ export default class NewAnswer extends React.Component<NewAnswerProps> {
     this.setState(Object.assign(this.state,{
       isCorrectAnswer: event.target.checked
     }))
-    console.log(this.state)
   }
 
 }
